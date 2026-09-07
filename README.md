@@ -1,4 +1,4 @@
-# Al Muhaidib Group × SAP — The Autonomous Enterprise Journey
+# YASREF × SAP — The Autonomous Enterprise Journey
 
 An interactive, presenter-led platform for walking Al Muhaidib Group's IT, Business, and Executive
 audiences from a Group-specific use case through SAP Business Data Cloud, SAP Business AI Platform,
