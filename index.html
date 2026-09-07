@@ -1,0 +1,3480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YASREF × SAP — The Autonomous Enterprise Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   YASREF × SAP — AUTONOMOUS ENTERPRISE JOURNEY
+   Design tokens derived from: SAP Joule brand palette,
+   YASREF brand identity (Red #CC2229, Green #3AAA35, Grey),
+   the navy-to-red-green crystal hero gradient, and
+   YASREF's refining excellence and Vision 2030 commitment.
+   ============================================================ */
+
+:root{
+  /* --- Core palette: YASREF Red / Green / Grey --- */
+  --navy-deep:      #0C0C0C;
+  --navy:            #111111;
+  --indigo-9:        #5B1015;
+  --indigo-7:        #CC2229;
+  --indigo-3:        #F5D0D2;
+  --blue-7:          #3AAA35;
+  --blue-3:          #B5E8B3;
+  --teal-7:          #3AAA35;
+  --grey-9:          #1A1A1A;
+  --grey-7:          #4A4A4A;
+  --grey-3:          #D5DADD;
+
+  /* --- Brand accents --- */
+  --amg-green:       #3AAA35;
+  --amg-orange:      #CC2229;
+  --amg-sky:         #3AAA35;
+  --amg-navy-text:   #111111;
+
+  /* --- Surfaces --- */
+  --surface-page:    #F7F7F8;
+  --surface-card:    #FFFFFF;
+  --surface-tint:    #F0F8EF;
+  --surface-dark:    #111111;
+
+  /* --- Text --- */
+  --ink-900:         #111111;
+  --ink-700:         #2A2A2A;
+  --ink-500:         #5A5A5A;
+  --ink-on-dark:     #F5F5F5;
+  --ink-on-dark-dim: #B8C4CA;
+
+  /* --- Gradients: YASREF deep charcoal/red/green --- */
+  --grad-hero: linear-gradient(125deg, #0C0C0C 0%, #1A0808 25%, #3D0D10 50%, #1A2E12 75%, #2D6B2A 100%);
+  --grad-crystal: linear-gradient(135deg, #CC2229 0%, #E6333A 40%, #3AAA35 100%);
+  --grad-accent-line: linear-gradient(90deg, #CC2229, #3AAA35, #CC2229);
+
+  /* --- Type --- */
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* --- Geometry --- */
+  --rail-width: 96px;
+  --footer-height: 52px;
+  --brandbar-height: 86px;
+  --pagenav-height: 72px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-float: 0 16px 48px rgba(204, 34, 41, 0.15);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family: var(--font-body);
+  background: var(--surface-page);
+  color: var(--ink-900);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width:100%; display:block; }
+button{ font-family: inherit; cursor:pointer; }
+ol,ul{ list-style:none; margin:0; padding:0; }
+a{ color: inherit; }
+h1,h2,h3,h4,p{ margin:0; }
+
+::selection{ background: var(--indigo-3); color: var(--indigo-9); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Visible keyboard focus */
+:focus-visible{
+  outline: 3px solid var(--blue-7);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============ AMBIENT BACKGROUND ============ */
+.ambient-bg{
+  position: fixed;
+  top:0; right:0; bottom:0; left:0;
+  z-index: -2;
+  background-image:
+    radial-gradient(ellipse 900px 600px at 88% 0%, rgba(204, 34, 41, 0.12), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 8%, rgba(58, 170, 53, 0.10), transparent 55%),
+    linear-gradient(168deg, rgba(252,250,250,0.94) 0%, rgba(250,247,248,0.94) 55%, rgba(248,244,246,0.94) 100%),
+    url('media/img/bg-texture.jpeg');
+  background-size: auto, auto, auto, cover;
+  background-position: top right, top right, top right, top center;
+  background-repeat: no-repeat;
+  transition: opacity 0.6s var(--ease);
+}
+.ambient-bg.is-dark{
+  background: var(--grad-hero);
+}
+
+/* ============ BRAND BAR ============ */
+.brand-bar{
+  position: fixed;
+  top:0; left: var(--rail-width); right:0;
+  height: var(--brandbar-height);
+  z-index: 60;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid rgba(204, 34, 41, 0.25);
+  transition: left 0.3s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.brand-bar.is-dark{
+  background: rgba(0, 0, 0, 0.88);
+  border-bottom-color: rgba(58, 170, 53, 0.2);
+}
+.brand-bar__inner{
+  height:100%;
+  display:flex;
+  align-items:center;
+  gap: 20px;
+  padding: 0 28px;
+  max-width: 1600px;
+}
+.brand-bar__logo--customer{
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.brand-bar__logo--customer img{
+  height: 48px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  background: none !important;
+  background-color: transparent !important;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+.brand-bar__divider{
+  width:1px; height: 44px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.25), transparent);
+  flex-shrink:0;
+}
+.brand-bar.is-dark .brand-bar__divider{
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.25), transparent);
+}
+.brand-bar__title{
+  display:flex; flex-direction:column; gap:2px;
+  min-width:0;
+}
+.brand-bar__eyebrow{
+  font-family: var(--font-display);
+  font-weight:600;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  transition: color 0.4s var(--ease);
+}
+.brand-bar.is-dark .brand-bar__eyebrow{ color: #fff; }
+.brand-bar__sub{
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.65);
+  font-weight:500;
+  transition: color 0.4s var(--ease);
+}
+.brand-bar.is-dark .brand-bar__sub{ color: var(--ink-on-dark-dim); }
+
+.brand-bar__menu-toggle{
+  display:none;
+  margin-left:auto;
+  width:40px; height:40px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.brand-bar__menu-toggle span{
+  width:18px; height:2px; border-radius:2px;
+  background: #fff;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.brand-bar.is-dark .brand-bar__menu-toggle span{ background:#fff; }
+
+/* ============ JOURNEY RAIL (LEFT) ============ */
+.journey-rail{
+  position: fixed;
+  top:0; left:0; bottom:0;
+  width: var(--rail-width);
+  z-index: 70;
+  background: linear-gradient(195deg, #0C0C0C 0%, #1A0808 30%, #3D0D10 60%, #1A2E12 85%, #2D6B2A 100%);
+  display:flex; flex-direction:column;
+  align-items:center;
+  padding: 18px 0 14px;
+  box-shadow: 4px 0 24px rgba(10,12,40,0.18);
+}
+.journey-rail__crystal{
+  width: 46px; height: 46px;
+  margin-bottom: 18px;
+  flex-shrink:0;
+}
+.crystal-svg{ width:100%; height:100%; filter: drop-shadow(0 4px 10px rgba(204,34,41,0.5)); }
+
+.journey-rail__list{
+  display:flex; flex-direction:column;
+  gap: 4px;
+  width:100%;
+  overflow-y:auto;
+  flex:1;
+  padding: 2px 8px;
+  scrollbar-width: thin;
+}
+.journey-rail__list::-webkit-scrollbar{ width:4px; }
+.journey-rail__list::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.2); border-radius:4px; }
+
+.rail-item{
+  position:relative;
+  display:flex; flex-direction:column; align-items:center;
+  gap:5px;
+  padding: 9px 4px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  width:100%;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  text-align:center;
+}
+.rail-item:hover{ background: rgba(255,255,255,0.08); color:#fff; }
+.rail-item.is-active{
+  background: rgba(255,255,255,0.14);
+  color:#fff;
+}
+.rail-item.is-active::before{
+  content:'';
+  position:absolute;
+  left:-8px; top:50%; transform: translateY(-50%);
+  width:4px; height: 22px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--blue-3), #fff);
+}
+.rail-item__dot{
+  width: 7px; height:7px;
+  border-radius:50%;
+  background: currentColor;
+  opacity:0.5;
+}
+.rail-item.is-active .rail-item__dot{
+  opacity:1;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.18);
+}
+.rail-item.is-done .rail-item__dot{
+  background: var(--amg-sky);
+  opacity:1;
+}
+.rail-item__label{
+  font-size: 9.5px;
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing: 0.01em;
+}
+
+/* ============ MOBILE NAV DRAWER ============ */
+.nav-drawer{
+  position: fixed; top:0; right:0; bottom:0; left:0; z-index: 200;
+  background: rgba(10,12,40,0.55);
+  backdrop-filter: blur(4px);
+  opacity:0; pointer-events:none;
+  transition: opacity 0.3s var(--ease);
+}
+.nav-drawer.is-open{ opacity:1; pointer-events:auto; }
+.nav-drawer__panel{
+  position:absolute; top:0; left:0; bottom:0;
+  width: min(340px, 84vw);
+  background: linear-gradient(195deg, #0C0C0C 0%, #1A0808 30%, #3D0D10 60%, #1A2E12 85%, #2D6B2A 100%);
+  transform: translateX(-100%);
+  transition: transform 0.35s var(--ease);
+  display:flex; flex-direction:column;
+  padding: 20px;
+}
+.nav-drawer.is-open .nav-drawer__panel{ transform: translateX(0); }
+.nav-drawer__head{
+  display:flex; align-items:center; justify-content:space-between;
+  color:#fff; font-family: var(--font-display); font-weight:600; font-size:18px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.nav-drawer__head button{
+  background:none; border:none; color:#fff; font-size:28px; line-height:1;
+}
+.nav-drawer__list{
+  display:flex; flex-direction:column; gap:2px;
+  overflow-y:auto;
+}
+.nav-drawer__item{
+  display:flex; align-items:center; gap:12px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  background:none; border:none;
+  color: rgba(255,255,255,0.7);
+  font-size: 14.5px; font-weight:600;
+  text-align:left;
+  width:100%;
+}
+.nav-drawer__item.is-active{ background: rgba(255,255,255,0.12); color:#fff; }
+.nav-drawer__item .rail-item__dot{ flex-shrink:0; }
+
+/* ============ STAGE / SECTIONS ============ */
+.stage{
+  margin-left: var(--rail-width);
+  padding-top: var(--brandbar-height);
+  padding-bottom: calc(var(--pagenav-height) + var(--footer-height));
+  min-height: 100vh;
+}
+.section{
+  display:none;
+  min-height: 70vh;
+  padding: 48px 56px 64px;
+  max-width: 1480px;
+  margin: 0 auto;
+  animation: sectionIn 0.55s var(--ease);
+}
+.section.is-active{ display:block; }
+/* The opening "storytelling" page is a single self-contained card meant to
+   fit one screen — it doesn't need the generous padding every other
+   (scrollable) section gets, so it gets a tighter frame instead, freeing up
+   real vertical room for the card itself. */
+#sec-usecase{
+  padding: clamp(10px, 1.6vh, 24px) clamp(16px, 2vw, 32px) clamp(8px, 1.2vh, 16px);
+}
+@keyframes sectionIn{
+  from{ opacity:0; transform: translateY(14px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+.section--dark{ color: var(--ink-on-dark); }
+
+/* ============ PAGE NAV (bottom) ============ */
+.page-nav{
+  position: fixed;
+  left: var(--rail-width); right:0; bottom: var(--footer-height);
+  height: var(--pagenav-height);
+  z-index: 55;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-top: 1px solid rgba(15,26,74,0.07);
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 28px;
+  gap: 20px;
+  transition: left 0.3s var(--ease);
+}
+.page-nav__btn{
+  display:flex; align-items:center; gap:8px;
+  background: var(--surface-card);
+  border: 1px solid rgba(15,26,74,0.10);
+  color: var(--ink-900);
+  font-weight:700;
+  font-size: 14px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+}
+.page-nav__btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-float); }
+.page-nav__btn:disabled{ opacity:0.35; pointer-events:none; }
+.page-nav__btn svg{ width:18px; height:18px; }
+.page-nav__btn--next{
+  background: linear-gradient(120deg, var(--indigo-7), var(--blue-7));
+  color:#fff; border:none;
+}
+.page-nav__progress{
+  flex:1; max-width: 480px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.page-nav__progress-track{
+  width:100%; height:5px;
+  background: rgba(15,26,74,0.10);
+  border-radius:99px;
+  overflow:hidden;
+}
+.page-nav__progress-fill{
+  height:100%;
+  background: linear-gradient(90deg, var(--amg-sky), var(--indigo-7));
+  border-radius:99px;
+  transition: width 0.5s var(--ease);
+}
+.page-nav__count{ font-size:11.5px; font-weight:700; color: var(--ink-500); letter-spacing:0.02em; }
+
+/* ============ FOOTER ============ */
+.site-footer{
+  position: fixed;
+  left: var(--rail-width); right:0; bottom:0;
+  height: var(--footer-height);
+  z-index: 55;
+  background: #000000;
+  display:flex; align-items:center;
+  transition: left 0.3s var(--ease);
+}
+.site-footer__inner{
+  display:flex; align-items:center; gap:14px;
+  padding: 0 28px;
+  width:100%;
+}
+.site-footer__sap-logo{
+  height: 22px;
+  width: auto;
+  background: transparent !important;
+}
+.site-footer__text{
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  font-weight:500;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ============================================================
+   TYPOGRAPHY HELPERS
+   ============================================================ */
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight:700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--indigo-7);
+  margin-bottom: 14px;
+}
+.eyebrow::before{
+  content:'';
+  width: 18px; height: 2px;
+  border-radius: 2px;
+  background: var(--grad-accent-line);
+}
+.section--dark .eyebrow{ color: var(--blue-3); }
+
+.headline{
+  font-family: var(--font-display);
+  font-weight:700;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  color: var(--ink-900);
+  font-size: clamp(32px, 4.2vw, 54px);
+}
+.section--dark .headline{ color:#fff; }
+.headline em{
+  font-style:normal;
+  color: var(--indigo-7);
+}
+.section--dark .headline em{
+  color: #FFD4D6;
+}
+
+.subhead{
+  font-size: clamp(15px, 1.3vw, 18.5px);
+  line-height:1.6;
+  color: var(--ink-500);
+  font-weight:500;
+  max-width: 680px;
+  margin-top: 16px;
+}
+.section--dark .subhead{ color: var(--ink-on-dark-dim); }
+
+.body-text{
+  font-size:15px; line-height:1.7; color: var(--ink-700); font-weight:450;
+}
+.section--dark .body-text{ color: var(--ink-on-dark-dim); }
+
+/* ============================================================
+   SECTION HEAD (shared)
+   ============================================================ */
+.section-head{
+  margin-bottom: 40px;
+  max-width: 920px;
+}
+.section-head--center{ margin-left:auto; margin-right:auto; text-align:center; }
+.section-head--center .eyebrow::before{ display:none; }
+.section-head--center .subhead{ margin-left:auto; margin-right:auto; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font-weight:700; font-size:14.5px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border:none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+  white-space:nowrap;
+}
+.btn svg{ width:17px; height:17px; }
+.btn-primary{
+  background: linear-gradient(120deg, #CC2229, #3AAA35);
+  color:#fff;
+  box-shadow: 0 10px 28px rgba(204,34,41,0.28);
+}
+.btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 16px 36px rgba(204,34,41,0.38); }
+.btn-ghost{
+  background: rgba(255,255,255,0.08);
+  color:#fff;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost:hover{ background: rgba(255,255,255,0.16); transform: translateY(-3px); }
+.btn-light{
+  background:#fff;
+  color: var(--indigo-9);
+  border: 1.5px solid rgba(91,16,21,0.15);
+  box-shadow: var(--shadow-card);
+}
+.btn-light:hover{ transform: translateY(-3px); box-shadow: var(--shadow-float); }
+
+/* ============================================================
+   HERO (use-case opener / section dividers)
+   ============================================================ */
+.hero{
+  position:relative;
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  min-height: 600px;
+  background: var(--grad-hero);
+  padding: 64px;
+  display:flex; flex-direction:column; justify-content:center;
+  isolation:isolate;
+}
+@media (min-height: 760px){
+  .hero{ min-height: 78vh; }
+}
+.hero::before{
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; left:0; z-index:0;
+  background:
+    radial-gradient(circle 480px at 85% 20%, rgba(204,34,41,0.22), transparent 70%),
+    radial-gradient(circle 600px at 100% 100%, rgba(58,170,53,0.28), transparent 65%);
+}
+.hero__crystal-deco{
+  position:absolute; right: -60px; top:50%; transform: translateY(-50%);
+  width: 46vw; max-width: 620px; opacity:0.92;
+  z-index:0;
+  filter: drop-shadow(0 30px 60px rgba(10,12,40,0.5));
+  animation: floatSlow 7s ease-in-out infinite;
+}
+@keyframes floatSlow{
+  0%,100%{ transform: translateY(-50%) rotate(0deg); }
+  50%{ transform: translateY(calc(-50% - 14px)) rotate(2deg); }
+}
+.hero__content{ position:relative; z-index:1; max-width: 640px; }
+.hero__eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+  color: var(--blue-3);
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 8px 16px 8px 12px;
+  border-radius:999px;
+  margin-bottom:26px;
+}
+.hero__eyebrow .dot{ width:7px; height:7px; border-radius:50%; background: var(--amg-sky); box-shadow:0 0 0 3px rgba(204,34,41,0.3); }
+.hero__title{
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.05;
+  letter-spacing:-0.02em;
+}
+.hero__title em{
+  font-style:normal;
+  color: #FFD4D6;
+}
+.hero__sub{
+  margin-top:22px;
+  font-size: clamp(15px,1.3vw,18px);
+  color: var(--ink-on-dark-dim);
+  line-height:1.7;
+  max-width: 540px;
+}
+.hero__actions{ display:flex; gap:14px; margin-top:36px; flex-wrap:wrap; }
+.hero__tagline{
+  margin-top: 40px;
+  font-size:13px;
+  color: rgba(255,255,255,0.5);
+  font-style:italic;
+  font-weight:500;
+}
+
+/* ============================================================
+   OPENER (single-screen storytelling view — usecase section)
+   ============================================================ */
+.opener{
+  position:relative;
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  background: var(--grad-hero);
+  padding: clamp(14px, 3vh, 32px) clamp(20px, 3vw, 44px) clamp(12px, 2.4vh, 26px);
+  isolation:isolate;
+  min-height: 380px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap: clamp(6px, 1.4vh, 16px);
+}
+/* The card sizes itself to whatever its content actually needs (height:auto,
+   the default). On most laptop/desktop windows that comfortably fits one
+   screen on its own. If a window is narrow enough that wrapped text genuinely
+   needs more room than that, the PAGE scrolls — same as every other section
+   on this platform — rather than clipping content or hiding it behind an
+   internal scrollbar a person might not notice. Nothing is ever hidden. */
+@media (min-width: 1180px) and (min-height: 720px){
+  .opener{
+    height: calc(100vh - var(--brandbar-height) - var(--pagenav-height) - var(--footer-height) - 48px);
+  }
+}
+/* Type and spacing scale continuously with available height via clamp(),
+   rather than jumping between fixed sizes at a breakpoint — that earlier
+   approach left a seam right at the boundary where neither rule fully
+   applied, which is exactly what caused content to overlap itself. */
+.opener__title{ font-size: clamp(17px, 2.6vh, 30px) !important; }
+.opener__eyebrow{ margin-bottom: clamp(6px, 1vh, 14px) !important; font-size: clamp(10.5px, 1.05vh, 12px) !important; padding: clamp(4px, 0.6vh, 6px) clamp(10px, 1vw, 14px) clamp(4px, 0.6vh, 6px) clamp(8px, 0.8vw, 10px) !important; }
+.opener__sub{
+  margin-top: clamp(4px, 0.8vh, 12px) !important;
+  font-size: clamp(11.5px, 1.5vh, 14px) !important;
+  line-height:1.4 !important;
+}
+/* Two separate triggers for the same line-clamp: a tall-but-cramped screen
+   (short height) needs it, AND a narrower screen needs it at a more
+   generous height too, since less width means each line of prose wraps
+   sooner and the paragraph silently grows taller than expected — that
+   second case was the actual cause of the bottom row overlapping the
+   footer on screens like 1280×768, even though 768px alone looked fine
+   on a wider screen. */
+@media (max-height: 760px){
+  .opener__sub{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+@media (max-width: 1320px) and (max-height: 900px){
+  .opener__sub{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+.opener__top{ gap: clamp(14px, 2vw, 32px) !important; }
+.opener__mid{ gap: clamp(10px, 1.4vw, 24px) !important; margin: 0 !important; }
+.opener__bottom{ margin-top: clamp(2px, 0.4vh, 6px) !important; }
+.opener__stat{ padding: clamp(8px, 1vh, 12px) clamp(10px, 1vw, 12px) !important; }
+.opener__stat-num{ font-size: clamp(18px, 2.4vh, 28px) !important; }
+.opener__stat-label{ font-size: clamp(10px, 1.1vh, 11px) !important; line-height:1.3 !important; }
+.opener__insight{ padding: clamp(8px, 1.2vh, 14px) clamp(12px, 1.2vw, 16px) !important; }
+.opener__insight-head{ margin-bottom:clamp(4px, 0.7vh, 8px) !important; gap:5px 8px !important; }
+.opener__insight-title{ font-size: clamp(11.5px, 1.2vh, 13px) !important; }
+.opener__insight-tab{ font-size: clamp(10px, 1.1vh, 12px) !important; padding: 3px clamp(7px, 0.8vw, 10px) !important; }
+.opener__insight-text{
+  font-size: clamp(13px, 1.5vh, 14.5px) !important;
+  line-height:1.5 !important;
+}
+@media (max-height: 760px){
+  .opener__insight-text{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+}
+@media (max-width: 1320px) and (max-height: 900px){
+  .opener__insight-text{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
+.opener__insight-signal{ margin-top:clamp(7px, 1vh, 10px) !important; padding-top:clamp(5px, 0.8vh, 10px) !important; font-size:clamp(11.5px, 1.2vh, 13px) !important; }
+.opener__insight-dots{ margin-top:clamp(5px, 0.7vh, 10px) !important; }
+.opener__flow{ gap: clamp(8px, 1.2vw, 16px) !important; }
+.opener__flow-step strong{ font-size: clamp(12px, 1.3vh, 13.5px) !important; }
+.opener__flow-step span{ font-size: clamp(10.5px, 1.1vh, 11.5px) !important; }
+.opener__portfolio{ padding: clamp(8px, 1.2vh, 16px) clamp(12px, 1.2vw, 18px) !important; }
+.opener__portfolio-label{ font-size: clamp(10px, 1.05vh, 11px) !important; margin-bottom:clamp(6px, 0.8vh, 10px) !important; }
+.opener__portfolio-chips{ gap:clamp(5px, 0.7vh, 8px) !important; }
+.opener__portfolio-chips .chip{ font-size: clamp(10px, 1.05vh, 11px) !important; padding: 3px clamp(8px, 0.9vw, 11px) !important; }
+.opener__cta{ padding: clamp(9px, 1.1vh, 12px) clamp(18px, 1.8vw, 24px) !important; font-size:clamp(13px, 1.3vh, 14px) !important; }
+.opener::before{
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; left:0; z-index:0;
+  background:
+    radial-gradient(circle 480px at 88% 12%, rgba(204,34,41,0.18), transparent 70%),
+    radial-gradient(circle 600px at 100% 100%, rgba(58,170,53,0.22), transparent 65%);
+}
+.opener__crystal{
+  position:absolute; right: -40px; top: -30px;
+  width: 220px; opacity:0.5;
+  z-index:0;
+  filter: drop-shadow(0 20px 40px rgba(10,12,40,0.5));
+}
+.opener__top, .opener__mid, .opener__bottom{ position:relative; z-index:1; }
+
+.opener__top{
+  display:flex;
+  gap:32px;
+  align-items:flex-start;
+}
+.opener__intro{ flex: 1 1 56%; min-width:0; }
+.opener__eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:12px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
+  color: var(--blue-3);
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 6px 14px 6px 10px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+.opener__eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--amg-sky); box-shadow:0 0 0 3px rgba(204,34,41,0.3); }
+.opener__title{
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.5vw, 34px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.12;
+  letter-spacing:-0.01em;
+}
+.opener__title em{ font-style:normal; color:#BFE0FF; }
+.opener__sub{
+  margin-top:12px;
+  font-size: 13.5px;
+  color: var(--ink-on-dark-dim);
+  line-height:1.55;
+  max-width: 560px;
+}
+.opener__portfolio{
+  flex: 1 1 40%;
+  min-width:0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  align-self: flex-start;
+  max-height: clamp(76px, 22vh, 132px);
+  overflow-y: auto;
+}
+.opener__portfolio-label{
+  font-size:11px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom:10px;
+}
+.opener__portfolio-chips{ display:flex; flex-wrap:wrap; }
+.opener__portfolio-chips .chip{
+  display:inline-block;
+  font-size:11.5px; font-weight:600;
+  color:#fff;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius:999px;
+  padding: 5px 11px;
+  margin: 0 6px 6px 0;
+}
+.opener__portfolio-chips .chip i{ font-style:normal; color: rgba(255,255,255,0.55); }
+
+.opener__mid{
+  display:flex;
+  gap:24px;
+  align-items:stretch;
+  margin: 18px 0;
+}
+.opener__stats{
+  flex: 1 1 56%;
+  display:flex;
+  gap:12px;
+}
+.opener__stat{
+  flex:1 1 0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 12px 12px;
+  min-width:0;
+}
+.opener__stat-num{
+  font-family: var(--font-display);
+  font-weight:700;
+  font-size: 24px;
+  color:#fff;
+  line-height:1;
+}
+.opener__stat-label{
+  margin-top:6px;
+  font-size:11px;
+  line-height:1.4;
+  color: rgba(255,255,255,0.6);
+}
+.opener__insight{
+  flex: 1 1 40%;
+  min-width:0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display:flex;
+  flex-direction:column;
+  max-height: clamp(140px, 32vh, 260px);
+  overflow-y: auto;
+}
+.opener__insight-head{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px 14px;
+  margin-bottom:8px;
+}
+.opener__insight-title{
+  font-size:13px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+  color: var(--blue-3);
+  flex-shrink:0;
+  display:flex; align-items:center; gap:6px;
+}
+.opener__insight-title::before{
+  content:'';
+  width:6px; height:6px; border-radius:50%;
+  background: #FF6B6F;
+  box-shadow: 0 0 0 0 rgba(255,107,111,0.6);
+  animation: openerPulse 2s ease-in-out infinite;
+  flex-shrink:0;
+}
+@keyframes openerPulse{
+  0%{ box-shadow: 0 0 0 0 rgba(255,107,111,0.55); }
+  70%{ box-shadow: 0 0 0 6px rgba(255,107,111,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(255,107,111,0); }
+}
+.opener__insight-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.opener__insight-tab{
+  appearance:none;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.65);
+  font-family: var(--font-body);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.01em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor:pointer;
+  transition: all 0.2s var(--ease);
+  white-space:nowrap;
+}
+.opener__insight-tab:hover{
+  border-color: rgba(255,255,255,0.4);
+  color:#fff;
+  background: rgba(255,255,255,0.1);
+}
+.opener__insight-tab.is-active{
+  background: linear-gradient(120deg, var(--indigo-7), var(--blue-7));
+  border-color: transparent;
+  color:#fff;
+  box-shadow: 0 4px 14px rgba(204,34,41,0.30);
+}
+.opener__insight-text{
+  font-size:14.5px;
+  line-height:1.55;
+  color: rgba(255,255,255,0.78);
+  transition: opacity 0.18s ease;
+  flex:1;
+}
+.opener__insight-text em{ font-style:normal; color:#fff; font-weight:600; }
+.opener__insight-signal{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top: 1px dashed rgba(255,255,255,0.18);
+  font-size:13px;
+  line-height:1.5;
+  color: var(--blue-3);
+  transition: opacity 0.18s ease;
+}
+.opener__insight-signal svg{ width:14px; height:14px; flex-shrink:0; margin-top:1px; }
+.opener__insight-dots{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:10px;
+}
+.opener__insight-dot{
+  appearance:none;
+  border:none;
+  padding:0;
+  width:6px; height:6px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.25);
+  cursor:pointer;
+  transition: all 0.25s var(--ease);
+}
+.opener__insight-dot:hover{ background: rgba(255,255,255,0.5); }
+.opener__insight-dot.is-active{
+  width:18px;
+  border-radius:4px;
+  background: linear-gradient(90deg, var(--indigo-7), var(--blue-7));
+}
+
+.opener__bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:16px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.opener__flow{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  flex: 1 1 auto;
+}
+.opener__flow-step{
+  display:flex; align-items:center; gap:10px;
+}
+.opener__flow-step div{ display:flex; flex-direction:column; }
+.opener__flow-step strong{ font-size:12.5px; color:#fff; font-weight:700; }
+.opener__flow-step span{ font-size:11px; color: rgba(255,255,255,0.55); margin-top:1px; max-width:220px; }
+.opener__flow-num{
+  flex-shrink:0;
+  width:24px; height:24px;
+  border-radius:50%;
+  background: linear-gradient(135deg, var(--indigo-7), var(--amg-sky));
+  color:#fff;
+  font-size:12px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.opener__flow-arrow{ width:16px; height:16px; color: rgba(255,255,255,0.35); flex-shrink:0; }
+.opener__cta{ flex-shrink:0; }
+
+@media (max-width: 980px){
+  .opener{ height:auto; padding: 28px 24px 24px; }
+  .opener__top, .opener__mid{ flex-direction:column; }
+  .opener__stats{ flex-wrap:wrap; }
+  .opener__stat{ flex:1 1 calc(50% - 6px); }
+  .opener__crystal{ display:none; }
+}
+
+/* ============================================================
+   CARDS / GRID
+   ============================================================ */
+.card{
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(15,26,74,0.05);
+}
+.card-pad{ padding: 28px; }
+
+.grid{ display:flex; flex-wrap:wrap; gap: 22px; }
+.grid > *{ flex: 1 1 0; min-width: 220px; }
+.grid-2 > *{ flex-basis: calc(50% - 11px); }
+.grid-3 > *{ flex-basis: calc(33.333% - 15px); }
+.grid-4 > *{ flex-basis: calc(25% - 17px); }
+.grid-5 > *{ flex-basis: calc(20% - 18px); }
+
+@media (max-width: 1180px){
+  .grid-4 > *, .grid-5 > *, .grid-3 > *{ flex-basis: calc(50% - 11px); }
+}
+@media (max-width: 720px){
+  .grid-2 > *, .grid-3 > *, .grid-4 > *, .grid-5 > *{ flex-basis: 100%; }
+}
+
+/* ============================================================
+   PILL / TAG / BADGE
+   ============================================================ */
+.tag{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11.5px; font-weight:700;
+  padding:5px 12px;
+  border-radius:999px;
+  background: var(--surface-tint);
+  color: var(--indigo-9);
+  letter-spacing:0.02em;
+}
+.tag--roadmap{ background: #FFF3DD; color:#9A6300; }
+.tag--live{ background:#E3F6E9; color:#1A7A3F; }
+.tag--bridge{ background: linear-gradient(90deg, rgba(58,170,53,0.15), rgba(204,34,41,0.12), rgba(58,170,53,0.15)); color: var(--amg-navy-text); }
+
+/* ============================================================
+   ICON CIRCLE
+   ============================================================ */
+.icon-circle{
+  width:46px; height:46px;
+  border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, #CC2229, #3AAA35);
+  color:#fff;
+  flex-shrink:0;
+  box-shadow: 0 8px 18px rgba(204,34,41,0.22);
+}
+.icon-circle svg{ width:23px; height:23px; }
+.icon-circle--soft{
+  background: var(--surface-tint);
+  color: var(--indigo-7);
+  box-shadow:none;
+}
+
+/* ============================================================
+   VIDEO FRAME (consistent video presentation component)
+   ============================================================ */
+.video-frame{
+  position:relative;
+  border-radius: var(--radius-md);
+  overflow:hidden;
+  background: #0F0F0F;
+  box-shadow: var(--shadow-float);
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 fallback for browsers without aspect-ratio support */
+}
+@supports (aspect-ratio: 16/9){
+  .video-frame{ height:auto; padding-bottom:0; aspect-ratio: 16/9; }
+}
+.video-frame video{
+  position:absolute; top:0; right:0; bottom:0; left:0;
+  width:100%; height:100%; object-fit:cover; display:block;
+  background:#000;
+}
+.video-frame__play{
+  position:absolute; top:0; right:0; bottom:0; left:0;
+  display:flex; align-items:center; justify-content:center;
+  background: rgba(10,12,40,0.30);
+  cursor:pointer;
+  transition: background 0.25s var(--ease);
+  border:none;
+}
+.video-frame__play:hover{ background: rgba(10,12,40,0.42); }
+.video-frame__play.is-hidden{ display:none; }
+.video-frame__play-icon{
+  width:74px; height:74px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.95);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  transition: transform 0.25s var(--ease);
+}
+.video-frame__play:hover .video-frame__play-icon{ transform: scale(1.08); }
+.video-frame__play-icon svg{ width:26px; height:26px; margin-left:4px; color: var(--indigo-9); }
+.video-frame__label{
+  position:absolute; left:16px; bottom:16px;
+  color:#fff; font-weight:700; font-size:13.5px;
+  display:flex; align-items:center; gap:8px;
+  background: rgba(10,12,40,0.55);
+  padding: 7px 14px;
+  border-radius:999px;
+  backdrop-filter: blur(6px);
+}
+.video-frame__label.is-hidden{ display:none; }
+.video-frame__label .rec-dot{
+  width:7px;height:7px;border-radius:50%; background:#FF5C5C;
+}
+.video-caption{
+  margin-top:14px;
+  font-size:13.5px;
+  color: var(--ink-500);
+  font-weight:500;
+  line-height:1.55;
+}
+.section--dark .video-caption{ color: var(--ink-on-dark-dim); }
+.video-frame--pending{
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
+  background: linear-gradient(145deg, #1A1010, #0F0F0F);
+  border: 1.5px dashed rgba(255,255,255,0.18);
+  text-align:center;
+  padding: 24px;
+}
+.video-frame--pending svg{ width:34px; height:34px; color: rgba(255,255,255,0.45); }
+.video-frame--pending__title{ color:#fff; font-weight:700; font-size:14.5px; }
+.video-frame--pending__sub{ color: rgba(255,255,255,0.55); font-size:12.5px; max-width:380px; }
+
+/* ============================================================
+   DIAGRAM PANEL (for embedded high-fidelity SAP slide images)
+   ============================================================ */
+.diagram-panel{
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  background:#fff;
+  box-shadow: var(--shadow-float);
+  border: 1px solid rgba(15,26,74,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.diagram-panel img{
+  width:100%;
+  height:auto;
+  max-width:100%;
+  display:block;
+  object-fit:contain;
+  margin:0 auto;
+}
+.diagram-panel__bar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 22px;
+  background: var(--surface-tint);
+  border-top: 1px solid rgba(15,26,74,0.06);
+}
+.diagram-panel__bar-label{ font-size:12.5px; font-weight:700; color: var(--indigo-9); }
+
+/* ============================================================
+   TABS (domain selector etc.)
+   ============================================================ */
+.tabs{
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin-bottom: 28px;
+}
+.tab-btn{
+  display:flex; align-items:center; gap:9px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(15,26,74,0.10);
+  background:#fff;
+  color: var(--ink-700);
+  font-weight:700; font-size:13.5px;
+  transition: all 0.25s var(--ease);
+  flex-shrink:0;
+}
+.tab-btn svg{ width:17px; height:17px; flex-shrink:0; }
+.tab-btn:hover{ border-color: var(--indigo-7); color: var(--indigo-7); }
+.tab-btn.is-active{
+  background: linear-gradient(120deg, #CC2229, #3AAA35);
+  border-color:transparent;
+  color:#fff;
+  box-shadow: 0 8px 20px rgba(204,34,41,0.25);
+}
+
+/* ============================================================
+   JOULE FLOATING WIDGET
+   ============================================================ */
+.joule-widget{ display:none; position: fixed; right: 28px; bottom: calc(var(--footer-height) + 24px); z-index: 120; }
+.joule-fab{
+  width:62px; height:62px;
+  border-radius:50%;
+  border:none;
+  background: linear-gradient(135deg, #CC2229, #3AAA35);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 12px 32px rgba(204,34,41,0.40);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  animation: pulseFab 3s ease-in-out infinite;
+}
+.joule-fab:hover{ transform: scale(1.08); }
+.joule-fab__crystal{ width:30px; height:30px; }
+@keyframes pulseFab{
+  0%,100%{ box-shadow: 0 12px 32px rgba(204,34,41,0.40); }
+  50%{ box-shadow: 0 12px 32px rgba(204,34,41,0.40), 0 0 0 10px rgba(204,34,41,0.08); }
+}
+.joule-panel{
+  position:absolute; right:0; bottom: 78px;
+  width: min(380px, 88vw);
+  max-height: min(560px, 70vh);
+  background:#fff;
+  border-radius: 22px;
+  box-shadow: 0 24px 64px rgba(10,12,40,0.35);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  opacity:0; transform: translateY(16px) scale(0.97);
+  pointer-events:none;
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+  border: 1px solid rgba(15,26,74,0.06);
+}
+.joule-panel.is-open{ opacity:1; transform: translateY(0) scale(1); pointer-events:auto; }
+.joule-panel__header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 16px 18px;
+  background: linear-gradient(120deg, #CC2229, #3AAA35);
+  color:#fff;
+  flex-shrink:0;
+}
+.joule-panel__title{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:15.5px; }
+.joule-panel__icon{ width:24px; height:24px; }
+.joule-panel__close{ background:none; border:none; color:#fff; font-size:22px; line-height:1; opacity:0.85; }
+.joule-panel__body{
+  flex:1; overflow-y:auto;
+  padding: 18px;
+  display:flex; flex-direction:column; gap:14px;
+  background: linear-gradient(180deg, #FDFAFA, #F8F4F5);
+}
+.joule-msg{ max-width:88%; font-size:13.8px; line-height:1.55; }
+.joule-msg--bot{
+  background:#fff; padding:13px 16px; border-radius: 4px 16px 16px 16px;
+  box-shadow: 0 4px 14px rgba(15,26,74,0.08);
+  color: var(--ink-700);
+}
+.joule-msg--user{
+  align-self:flex-end;
+  background: linear-gradient(120deg, #CC2229, #3AAA35);
+  color:#fff;
+  padding:13px 16px; border-radius: 16px 4px 16px 16px;
+}
+.joule-suggestions{ display:flex; flex-direction:column; gap:8px; }
+.joule-suggestion-btn{
+  text-align:left;
+  background:#fff;
+  border: 1px solid rgba(204,34,41,0.18);
+  color: var(--indigo-7);
+  font-weight:600; font-size:13px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.joule-suggestion-btn:hover{ background: var(--surface-tint); transform: translateX(2px); }
+.joule-panel__input{
+  display:flex; align-items:center; gap:10px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(15,26,74,0.07);
+  background:#fff;
+  flex-shrink:0;
+}
+.joule-panel__input input{
+  flex:1; border:none; outline:none;
+  font-size:13.8px;
+  font-family: inherit;
+  color: var(--ink-900);
+}
+.joule-panel__input input::placeholder{ color: var(--ink-500); }
+.joule-panel__input button{
+  width:34px; height:34px; border-radius:50%;
+  background: linear-gradient(135deg, #CC2229, #3AAA35);
+  border:none; color:#fff;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.joule-panel__input button svg{ width:15px; height:15px; }
+
+/* ============================================================
+   USE-CASE NARRATIVE (storyboard steps)
+   ============================================================ */
+.story-flow{
+  display:flex; flex-direction:column; gap:0;
+  margin-top: 8px;
+}
+.story-step{
+  display:grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding-bottom: 36px;
+  position:relative;
+}
+.story-step:not(:last-child)::before{
+  content:'';
+  position:absolute;
+  left:31px; top:54px; bottom:0;
+  width:2px;
+  background: linear-gradient(180deg, rgba(204,34,41,0.35), rgba(204,34,41,0.08));
+}
+.story-step__num{
+  width:64px; height:64px;
+  border-radius:18px;
+  background: linear-gradient(135deg, #CC2229, #3AAA35);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-display);
+  font-weight:700; font-size:22px;
+  box-shadow: 0 10px 24px rgba(204,34,41,0.25);
+  flex-shrink:0;
+  z-index:1;
+}
+.story-step__body{ padding-top: 8px; }
+.story-step__title{
+  font-family: var(--font-display);
+  font-weight:700; font-size:21px;
+  color: var(--ink-900);
+  margin-bottom:8px;
+}
+.section--dark .story-step__title{ color:#fff; }
+.story-step__text{ font-size:14.5px; line-height:1.7; color: var(--ink-700); max-width:680px; }
+.section--dark .story-step__text{ color: var(--ink-on-dark-dim); }
+.story-step__tag{ margin-top:10px; }
+
+/* ============================================================
+   VIDEO MODAL (pop-up player)
+   ============================================================ */
+.video-modal{
+  display:none;
+  position: fixed;
+  top:0; right:0; bottom:0; left:0;
+  z-index: 500;
+  align-items:center;
+  justify-content:center;
+  padding: 32px;
+}
+.video-modal.is-open{ display:flex; }
+.video-modal__backdrop{
+  position:absolute;
+  top:0; right:0; bottom:0; left:0;
+  background: rgba(8,10,32,0.82);
+  backdrop-filter: blur(4px);
+}
+.video-modal__dialog{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width: 1040px;
+  background:#0F0F0F;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.55);
+  padding: 18px 18px 14px;
+  animation: videoModalIn 0.25s var(--ease);
+}
+@keyframes videoModalIn{
+  from{ opacity:0; transform: translateY(14px) scale(0.98); }
+  to{ opacity:1; transform: translateY(0) scale(1); }
+}
+.video-modal__frame{
+  position:relative;
+  width:100%;
+  height:0;
+  padding-bottom:56.25%;
+  border-radius: 12px;
+  overflow:hidden;
+  background:#000;
+}
+@supports (aspect-ratio: 16/9){
+  .video-modal__frame{ height:auto; padding-bottom:0; aspect-ratio: 16/9; }
+}
+.video-modal__frame video{
+  position:absolute; top:0; right:0; bottom:0; left:0;
+  width:100%; height:100%;
+  display:block;
+  background:#000;
+}
+.video-modal__close{
+  position:absolute;
+  top: -16px; right: -16px;
+  width:40px; height:40px;
+  border-radius:50%;
+  border: none;
+  background:#fff;
+  color: var(--ink-900);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+  z-index:2;
+  transition: transform 0.15s var(--ease);
+}
+.video-modal__close:hover{ transform: scale(1.08); }
+.video-modal__close svg{ width:18px; height:18px; }
+.video-modal__label{
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+  padding: 14px 6px 4px;
+  display:flex; align-items:center; gap:8px;
+}
+@media (max-width: 640px){
+  .video-modal{ padding:14px; }
+  .video-modal__dialog{ padding:12px 12px 10px; }
+  .video-modal__close{ top:-12px; right:-12px; width:34px; height:34px; }
+}
+
+/* ============================================================
+   PILLAR CARDS (BDC / BAIP / Autonomous overview)
+   ============================================================ */
+.pillar-card{
+  background:#fff;
+  border-radius: var(--radius-md);
+  padding: 30px 26px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(15,26,74,0.05);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.pillar-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-float); }
+.pillar-card__icon{ margin-bottom:18px; }
+.pillar-card__title{ font-family: var(--font-display); font-weight:700; font-size:18px; margin-bottom:10px; color: var(--ink-900); }
+.pillar-card__text{ font-size:13.8px; line-height:1.65; color: var(--ink-500); }
+
+/* ============================================================
+   ASSISTANT / AGENT CATALOG GRID
+   ============================================================ */
+.domain-pill{
+  display:flex; align-items:center; gap:10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-weight:700; font-size:13.5px;
+}
+.assistant-card{
+  background:#fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(15,26,74,0.06);
+  border: 1px solid rgba(15,26,74,0.05);
+  cursor:default;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.assistant-card:hover{ transform: translateX(3px); box-shadow: 0 6px 18px rgba(204,34,41,0.12); }
+.assistant-card__name{ font-weight:700; font-size:13.5px; color: var(--ink-900); margin-bottom:3px; }
+.assistant-card__count{ font-size:11.5px; color: var(--indigo-7); font-weight:600; }
+
+/* ============================================================
+   STAT BLOCKS
+   ============================================================ */
+.stat-grid{ display:flex; flex-wrap:wrap; gap:18px; }
+.stat-grid > *{ flex: 1 1 calc(25% - 14px); min-width:140px; }
+@media (max-width: 900px){ .stat-grid > *{ flex-basis: calc(50% - 9px); } }
+.stat-block{
+  background:#fff;
+  border-radius: var(--radius-md);
+  padding: 24px 22px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(15,26,74,0.05);
+}
+.stat-block__num{
+  font-family: var(--font-display);
+  font-weight:700;
+  font-size: clamp(28px,2.6vw,38px);
+  color: var(--indigo-7);
+  line-height:1;
+}
+.stat-block__label{ font-size:12.5px; color: var(--ink-500); font-weight:600; margin-top:8px; line-height:1.45; }
+
+/* ============================================================
+   BEFORE / AFTER COMPARISON
+   ============================================================ */
+.compare-grid{ display:flex; flex-wrap:wrap; gap:20px; }
+.compare-grid > *{ flex: 1 1 calc(50% - 10px); min-width:280px; }
+.compare-col{
+  border-radius: var(--radius-md);
+  padding: 26px;
+}
+.compare-col--before{ background: #F3F1F8; border: 1.5px dashed rgba(91,101,132,0.3); }
+.compare-col--after{ background: linear-gradient(160deg, #FFF0F0, #F0FAF0); border: 1.5px solid rgba(204,34,41,0.18); }
+.compare-col__head{ font-family: var(--font-display); font-weight:700; font-size:16px; margin-bottom:16px; }
+.compare-item{ display:flex; align-items:flex-start; gap:10px; padding:9px 0; font-size:13.8px; line-height:1.5; }
+.compare-item svg{ width:17px; height:17px; flex-shrink:0; margin-top:1px; }
+
+/* ============================================================
+   INTRO / TEAM SLOT
+   ============================================================ */
+.team-grid{ display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; justify-content:center; }
+.team-grid > *{ flex: 1 1 220px; max-width: calc(33.333% - 16px); }
+@media (max-width: 720px){ .team-grid > *{ max-width:100%; } }
+.team-card{
+  background:#fff;
+  border-radius: var(--radius-md);
+  overflow:hidden;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(15,26,74,0.05);
+  text-align:center;
+}
+.team-card__photo{
+  aspect-ratio: 1;
+  background: linear-gradient(140deg, var(--surface-tint), #F5E8E9);
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.team-card__photo-placeholder{
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  color: var(--indigo-7);
+  opacity:0.55;
+}
+.team-card__photo-placeholder svg{ width:46px; height:46px; }
+.team-card__photo-placeholder span{ font-size:11.5px; font-weight:700; letter-spacing:0.03em; }
+.team-card__info{ padding: 18px 16px 22px; }
+.team-card__name{ font-family: var(--font-display); font-weight:700; font-size:16.5px; color: var(--ink-900); }
+.team-card__title{ font-size:12.5px; color: var(--ink-500); font-weight:600; margin-top:4px; }
+
+/* ============================================================
+   WORKSHOP / QR SECTION
+   ============================================================ */
+.workshop-panel{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  gap: 36px;
+}
+.workshop-panel .steps-strip{ flex: 2 1 480px; min-width:0; }
+.workshop-panel .qr-card{ flex: 1 1 320px; max-width: 380px; }
+@media (max-width: 980px){ .workshop-panel .qr-card{ max-width:none; } }
+.qr-card{
+  background: var(--grad-hero);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  box-shadow: var(--shadow-float);
+  position:relative;
+  overflow:hidden;
+}
+.qr-card::before{
+  content:'';
+  position:absolute; top:0; right:0; bottom:0; left:0;
+  background: radial-gradient(circle 280px at 80% 0%, rgba(204,34,41,0.22), transparent 70%);
+}
+.qr-card__inner{ position:relative; z-index:1; }
+.qr-card__box{
+  width:180px; height:180px;
+  background:#fff;
+  border-radius:18px;
+  margin: 0 auto 20px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+}
+.qr-card__box--image{ padding:14px; }
+.qr-card__img{ width:100%; height:100%; object-fit:contain; border-radius:4px; }
+.qr-card__title{ color:#fff; font-family:var(--font-display); font-weight:700; font-size:18px; margin-bottom:8px; }
+.qr-card__sub{ color: var(--ink-on-dark-dim); font-size:13px; line-height:1.6; max-width:260px; margin:0 auto; }
+.qr-card__placeholder-icon{ width:60px; height:60px; color: var(--indigo-7); opacity:0.3; }
+
+.steps-strip{
+  display:flex; flex-direction:column; gap:14px;
+}
+.step-row{
+  display:flex; gap:16px; align-items:flex-start;
+  background:#fff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 12px rgba(15,26,74,0.06);
+  border: 1px solid rgba(15,26,74,0.05);
+}
+.step-row__num{
+  width:30px; height:30px; border-radius:9px;
+  background: var(--surface-tint);
+  color: var(--indigo-7);
+  font-weight:700; font-size:13px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.step-row__title{ font-weight:700; font-size:14px; color: var(--ink-900); margin-bottom:3px; }
+.step-row__text{ font-size:12.8px; color: var(--ink-500); line-height:1.55; }
+
+.placeholder-banner{
+  display:flex; align-items:center; gap:14px;
+  background: #FFF7E6;
+  border: 1.5px dashed #E8B84B;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.placeholder-banner svg{ width:22px; height:22px; color:#B8780A; flex-shrink:0; }
+.placeholder-banner p{ font-size:13.2px; color:#7A5400; font-weight:600; line-height:1.5; }
+
+/* ============================================================
+   BREADCRUMB MAP STRIP (Joule -> Suite -> Platform)
+   ============================================================ */
+.arch-strip{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom: 28px;
+  flex-wrap:wrap;
+}
+.arch-node{
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight:700; font-size:13px;
+  background: var(--surface-tint);
+  color: var(--ink-500);
+}
+.arch-node.is-current{
+  background: linear-gradient(120deg, #CC2229, #3AAA35);
+  color:#fff;
+  box-shadow: 0 8px 20px rgba(204,34,41,0.25);
+}
+.arch-arrow{ color: var(--ink-500); opacity:0.5; font-size:14px; }
+
+/* ============================================================
+   CLOSING / CTA
+   ============================================================ */
+.closing-hero{
+  text-align:center;
+  padding: 80px 40px;
+}
+.closing-hero__crystal{ width:140px; margin: 0 auto 32px; }
+
+/* ============================================================
+   SCROLLBAR (content areas)
+   ============================================================ */
+.section::-webkit-scrollbar{ width:8px; }
+
+/* ============================================================
+   RESPONSIVE: TABLET / MOBILE
+   ============================================================ */
+@media (max-width: 980px){
+  :root{ --rail-width: 0px; }
+  .journey-rail{ display:none; }
+  .brand-bar{ left:0; }
+  .page-nav{ left:0; }
+  .site-footer{ left:0; }
+  .stage{ margin-left:0; }
+  .brand-bar__menu-toggle{ display:flex; }
+  .section{ padding: 32px 22px 48px; }
+  .hero{ padding: 40px 26px; }
+  .hero__crystal-deco{ opacity:0.25; width:70vw; }
+  .workshop-panel{ gap:24px; }
+}
+@media (max-width: 600px){
+  .brand-bar__sub{ display:none; }
+  .page-nav__label{ display:none; }
+  .site-footer__text{ font-size:9.5px; }
+  .joule-widget{ right:16px; }
+  .joule-panel{ right: -8px; width: 92vw; }
+  .stat-grid{ grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   INTRO VIDEO OVERLAY (fullscreen, autoplay on load)
+   ============================================================ */
+.intro-video-overlay{
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+.intro-video-overlay.is-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-video-overlay video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+.intro-video-overlay__close{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.intro-video-overlay__close:hover{
+  background: rgba(0,0,0,0.75);
+  transform: scale(1.1);
+}
+
+
+</style>
+<body>
+
+<!-- ============ INTRO VIDEO (fullscreen autoplay) ============ -->
+<div class="intro-video-overlay" id="introVideoOverlay">
+  <button class="intro-video-overlay__close" id="introVideoClose" aria-label="Close intro video">
+    <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+  </button>
+
+  <video id="introVideo" src="media/video/intro-video.mp4" autoplay muted playsinline></video>
+</div>
+
+<!-- ============ AMBIENT BACKGROUND ============ -->
+<div class="ambient-bg" id="ambientBg" aria-hidden="true"></div>
+
+<!-- ============ TOP BRAND BAR ============ -->
+<header class="brand-bar" id="brandBar">
+  <div class="brand-bar__inner">
+    <div class="brand-bar__logo brand-bar__logo--customer">
+      <img src="media/logos/yasref-logo.png" alt="YASREF" style="background:transparent !important;">
+    </div>
+    <div class="brand-bar__divider" aria-hidden="true"></div>
+    <div class="brand-bar__title">
+      <span class="brand-bar__eyebrow">The Autonomous Enterprise Journey</span>
+      <span class="brand-bar__sub">Powered by SAP Business AI Platform</span>
+    </div>
+    <button class="brand-bar__menu-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ LEFT JOURNEY RAIL (Desktop) ============ -->
+<nav class="journey-rail" id="journeyRail" aria-label="Journey navigation">
+  <div class="journey-rail__crystal" id="railCrystal" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="crystal-svg">
+      <defs>
+        <linearGradient id="crystalGradRail" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#CC2229"/>
+          <stop offset="45%" stop-color="#E6333A"/>
+          <stop offset="100%" stop-color="#3AAA35"/>
+        </linearGradient>
+      </defs>
+      <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="url(#crystalGradRail)" fill-rule="evenodd"/>
+    </svg>
+  </div>
+  <ol class="journey-rail__list" id="journeyList"></ol>
+</nav>
+
+<!-- ============ MOBILE NAV DRAWER ============ -->
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer__panel">
+    <div class="nav-drawer__head">
+      <span>Journey Map</span>
+      <button id="navDrawerClose" aria-label="Close navigation">&times;</button>
+    </div>
+    <ol class="nav-drawer__list" id="navDrawerList"></ol>
+  </div>
+</div>
+
+<!-- ============ MAIN STAGE ============ -->
+<main class="stage" id="stage">
+  <!-- Sections injected here by sections.js content, written directly below -->
+</main>
+
+<!-- ============ BOTTOM PAGE NAV (prev/next + progress) ============ -->
+<nav class="page-nav" id="pageNav" aria-label="Section controls">
+  <button class="page-nav__btn page-nav__btn--prev" id="prevBtn" aria-label="Previous section">
+    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="page-nav__label" id="prevLabel">Back</span>
+  </button>
+  <div class="page-nav__progress">
+    <div class="page-nav__progress-track">
+      <div class="page-nav__progress-fill" id="progressFill"></div>
+    </div>
+    <span class="page-nav__count"><span id="currentIdx">1</span> / <span id="totalIdx">1</span></span>
+  </div>
+  <button class="page-nav__btn page-nav__btn--next" id="nextBtn" aria-label="Next section">
+    <span class="page-nav__label" id="nextLabel">Next</span>
+    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</nav>
+
+<!-- ============ FOOTER (SAP logo) ============ -->
+<footer class="site-footer" id="siteFooter">
+  <div class="site-footer__inner">
+    <img src="media/logos/sap-logo.png" alt="SAP" class="site-footer__sap-logo">
+    <span class="site-footer__text">© 2026 SAP SE or an SAP affiliate company. All rights reserved. · Prepared exclusively for YASREF</span>
+  </div>
+</footer>
+
+<!-- ============ JOULE FLOATING ASSISTANT ============ -->
+<div class="joule-widget" id="jouleWidget">
+  <button class="joule-fab" id="jouleFab" aria-label="Open Joule assistant">
+    <svg viewBox="0 0 100 100" class="joule-fab__crystal">
+      <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="#ffffff" fill-rule="evenodd"/>
+    </svg>
+  </button>
+  <div class="joule-panel" id="joulePanel">
+    <div class="joule-panel__header">
+      <div class="joule-panel__title">
+        <svg viewBox="0 0 100 100" class="joule-panel__icon">
+          <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="#ffffff" fill-rule="evenodd"/>
+        </svg>
+        <span>Joule</span>
+      </div>
+      <button class="joule-panel__close" id="jouleClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="joule-panel__body" id="jouleBody">
+      <div class="joule-msg joule-msg--bot">
+        <p>Good morning. I'm Joule — what should we work on?</p>
+      </div>
+      <div class="joule-suggestions" id="jouleSuggestions"></div>
+    </div>
+    <div class="joule-panel__input">
+      <input type="text" id="jouleInput" placeholder="Message Joule…" aria-label="Message Joule">
+      <button id="jouleSend" aria-label="Send">
+        <svg viewBox="0 0 24 24"><path d="M3 12l18-8-8 18-2-8-8-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIDEO MODAL (pop-up player) ============ -->
+<div class="video-modal" id="videoModal" aria-hidden="true">
+  <div class="video-modal__backdrop" id="videoModalBackdrop"></div>
+  <div class="video-modal__dialog" role="dialog" aria-modal="true" aria-label="Video player">
+    <button class="video-modal__close" id="videoModalClose" aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="video-modal__frame">
+      <video id="videoModalPlayer" playsinline controls></video>
+    </div>
+    <div class="video-modal__label" id="videoModalLabel"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONTENT.JS
+   Defines the ordered journey sections. Each entry:
+   { id, navLabel, kind ('dark'|'light'), html: <string> }
+   Built from: real content extracted from the six approved SAP
+   PPTX decks (SAP_Autonomous-AMG, AMG2, J4C, Joule_Agents,
+   AI_Beyond_Joule, Get_started_with_Joule_today), plus an
+   YASREF-specific opening use case and a presenter intro
+   slot, per the agreed structure.
+   ============================================================ */
+
+/* ---------- Interactive AI insight tabs for the opening storytelling page ---------- */
+const OPENER_INSIGHTS = [
+  {
+    label: 'Predictive Asset Reliability',
+    text: `YASREF operates one of the world's most advanced 400,000 bpd full-conversion refineries — where a single unplanned shutdown can cost <em>$3-5 million per day</em> in lost throughput. Today, maintenance scheduling relies on fixed intervals and reactive work orders across SAP PM. With SAP Business AI embedded in S/4HANA Asset Management, YASREF can shift to condition-based and predictive maintenance — analyzing vibration signatures, thermal imaging data, and corrosion rates from 12,000+ rotating equipment assets in real time, predicting failures <em>weeks before they occur</em> and auto-generating optimized maintenance work orders.`,
+    signal: `Live signal: AI detects anomalous vibration patterns on Hydrocracker Unit-2 compressor train — predicts bearing degradation within 14 days at 94% confidence. Joule auto-creates a Priority-1 PM order, reserves spare parts from Yanbu warehouse, and schedules the intervention during the next planned partial shutdown — avoiding $4.2M in potential unplanned downtime.`
+  },
+  {
+    label: 'Process Safety & HSE Intelligence',
+    text: `Operating heavy crude processing units, hydrocrackers, and delayed cokers demands uncompromising safety discipline. YASREF manages thousands of safety observations, permit-to-work records, and near-miss reports annually — but correlating these signals across units to predict incident trajectories remains a manual, resource-intensive process. SAP Business AI transforms YASREF's HSE data into a <em>predictive safety nerve center</em> — using NLP to analyze safety observations, identifying hidden risk patterns across process units, and forecasting high-risk windows before incidents materialize.`,
+    signal: `Live signal: AI correlates a 38% increase in near-miss reports from the Residue Fluid Catalytic Cracker (RFCC) unit with concurrent turnaround fatigue patterns and elevated H2S readings — Joule escalates a pre-emptive safety stand-down recommendation to the VP of Operations, preventing a potential process safety event.`
+  },
+  {
+    label: 'Crude Optimization & Supply Chain',
+    text: `YASREF processes Arabian Heavy and Arabian Medium crude into high-value products including ultra-low sulfur diesel, gasoline, benzene, and para-xylene. Optimizing the crude diet and product slate to maximize refining margins requires balancing feedstock quality variations, unit constraints, market prices, and shipping logistics in real time. SAP Business AI integrated with SAP IBP and S/4HANA enables <em>autonomous crude-to-product optimization</em> — continuously recalculating the optimal blend ratios, cut points, and logistics plans as market conditions shift hourly.`,
+    signal: `Live signal: AI detects a $2.40/bbl margin improvement opportunity by shifting the crude diet 8% toward Arabian Heavy this week — factoring in current RFCC catalyst activity, diesel crack spreads, and vessel availability at Yanbu port. Joule auto-adjusts the crude nomination and alerts the Planning & Economics team with a full P&L scenario comparison.`
+  },
+  {
+    label: 'Workforce Excellence & Saudization',
+    text: `As a flagship Saudi Aramco-Sinopec joint venture, YASREF is deeply committed to developing national talent — targeting aggressive Saudization goals while operating one of the Kingdom's most technically demanding refining complexes. With 3,000+ employees across operations, maintenance, engineering, and corporate functions, tracking competency matrices, certification expirations, and career development across shifts is enormously complex. SAP SuccessFactors with embedded AI delivers a <em>self-optimizing workforce intelligence platform</em> — predicting retirement waves, identifying high-potential Saudi operators ready for advancement, and auto-generating personalized upskilling journeys.`,
+    signal: `Live signal: AI identifies 47 Saudi process operators in the Hydrocracking division who have completed 85%+ of their competency requirements for promotion to Senior Operator — Joule auto-generates individualized 90-day development plans, schedules remaining certifications, and notifies line managers, accelerating Saudization progression by 6 months.`
+  },
+  {
+    label: 'Energy & Emissions Optimization',
+    text: `As one of the largest single-site refineries in Saudi Arabia, YASREF's energy consumption and emissions footprint are under increasing scrutiny from both Saudi Green Initiative targets and global ESG reporting requirements. Managing energy intensity across 15+ process units — from atmospheric distillation to sulfur recovery — while maintaining product quality requires continuous, data-driven optimization. SAP Sustainability Control Tower powered by Business AI provides <em>real-time carbon and energy intelligence</em> — tracking Scope 1 and 2 emissions per barrel, identifying energy waste hotspots, and recommending operational adjustments that cut fuel gas consumption without sacrificing throughput.`,
+    signal: `Live signal: AI identifies that adjusting the Crude Distillation Unit reflux ratio by 3.2% and optimizing fired heater excess air trim across 8 furnaces could reduce fuel gas consumption by 12,400 MMBtu/day — equivalent to 2,100 tons CO2/year. Joule prepares an engineering change proposal with full energy balance projections for the Refinery Manager's review.`
+  }
+];
+
+const JOURNEY_SECTIONS = [
+
+/* ============================================================
+   01 — USE CASE OPENER (YASREF specific — energy-sector storytelling)
+   ============================================================ */
+{
+  id: 'usecase',
+  navLabel: 'The Challenge',
+  kind: 'dark',
+  html: `
+    <div class="opener">
+      <svg class="opener__crystal" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="heroCrystal1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#CC2229"/><stop offset="50%" stop-color="#E6333A"/><stop offset="100%" stop-color="#3AAA35"/>
+          </linearGradient>
+        </defs>
+        <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="url(#heroCrystal1)" fill-rule="evenodd"/>
+      </svg>
+
+      <div class="opener__top">
+        <div class="opener__intro">
+          <div class="opener__eyebrow"><span class="dot"></span> Introducing SAP Business AI for YASREF</div>
+          <h1 class="opener__title">Refining the Future. <em>AI at the Heart of Operations.</em></h1>
+          <p class="opener__sub">YASREF — Yanbu Aramco Sinopec Refining Company — operates a world-class 400,000 bpd full-conversion refinery, transforming Arabian Heavy crude into high-value fuels and petrochemicals. Running on SAP today, YASREF is ready to harness Autonomous Enterprise intelligence across asset reliability, process safety, supply chain optimization, and workforce excellence. This is the story of turning refinery data into autonomous action.</p>
+        </div>
+        <div class="opener__portfolio">
+          <div class="opener__portfolio-label">Domains this transforms</div>
+          <div class="opener__portfolio-chips">
+            <span class="chip">Asset Reliability <i>· Predictive Maintenance</i></span>
+            <span class="chip">Process Safety <i>· HSE Intelligence</i></span>
+            <span class="chip">Crude Optimization <i>· Supply Chain</i></span>
+            <span class="chip">Workforce Planning <i>· Saudization</i></span>
+            <span class="chip">Energy Management <i>· Sustainability</i></span>
+            <span class="chip">Finance & Procurement <i>· Turnarounds</i></span>
+            <span class="chip">Quality Control <i>· Product Blending</i></span>
+            <span class="chip">Operations Excellence <i>· Digital Twin</i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="opener__mid">
+        <div class="opener__stats">
+          <div class="opener__stat"><div class="opener__stat-num">400K</div><div class="opener__stat-label">barrels per day — one of the world's largest full-conversion refineries</div></div>
+          <div class="opener__stat"><div class="opener__stat-num">3,000+</div><div class="opener__stat-label">employees across operations, maintenance, and engineering</div></div>
+          <div class="opener__stat"><div class="opener__stat-num">15+</div><div class="opener__stat-label">major process units — from CDU to Hydrocracker to RFCC</div></div>
+          <div class="opener__stat"><div class="opener__stat-num">5</div><div class="opener__stat-label">AI-powered domains ready for autonomous transformation</div></div>
+        </div>
+        <div class="opener__insight" id="openerInsight">
+          <div class="opener__insight-head">
+            <div class="opener__insight-title">Refinery AI Insight</div>
+            <div class="opener__insight-tabs" id="openerInsightTabs">
+              <button class="opener__insight-tab is-active" data-insight="0" aria-label="Predictive Asset Reliability insight">Asset Reliability</button>
+              <button class="opener__insight-tab" data-insight="1" aria-label="Process Safety & HSE Intelligence insight">Safety & HSE</button>
+              <button class="opener__insight-tab" data-insight="2" aria-label="Crude Optimization & Supply Chain insight">Crude Optimization</button>
+              <button class="opener__insight-tab" data-insight="3" aria-label="Workforce Excellence & Saudization insight">Workforce & Saudization</button>
+              <button class="opener__insight-tab" data-insight="4" aria-label="Energy & Emissions Optimization insight">Energy & Emissions</button>
+            </div>
+          </div>
+          <p class="opener__insight-text" id="openerInsightText">YASREF operates one of the world's most advanced 400,000 bpd full-conversion refineries — where a single unplanned shutdown can cost <em>$3-5 million per day</em> in lost throughput. Today, maintenance scheduling relies on fixed intervals and reactive work orders across SAP PM. With SAP Business AI embedded in S/4HANA Asset Management, YASREF can shift to condition-based and predictive maintenance — analyzing vibration signatures, thermal imaging data, and corrosion rates from 12,000+ rotating equipment assets in real time, predicting failures <em>weeks before they occur</em> and auto-generating optimized maintenance work orders.</p>
+          <div class="opener__insight-signal" id="openerInsightSignal">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <span>Live signal: AI detects anomalous vibration patterns on Hydrocracker Unit-2 compressor train — predicts bearing degradation within 14 days at 94% confidence. Joule auto-creates a Priority-1 PM order, reserves spare parts from Yanbu warehouse, and schedules the intervention during the next planned partial shutdown — avoiding $4.2M in potential unplanned downtime.</span>
+          </div>
+          <div class="opener__insight-dots" id="openerInsightDots" role="tablist" aria-label="Auto-rotating refinery AI insights"></div>
+        </div>
+      </div>
+
+      <div class="opener__bottom">
+        <div class="opener__flow">
+          <div class="opener__flow-step">
+            <span class="opener__flow-num">1</span>
+            <div><strong>SAP Business Data Cloud</strong><span>unifies refinery, supply chain, and workforce data into one governed foundation</span></div>
+          </div>
+          <svg class="opener__flow-arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="opener__flow-step">
+            <span class="opener__flow-num">2</span>
+            <div><strong>SAP Business AI Platform</strong><span>turns refinery data into autonomous action, not just dashboards</span></div>
+          </div>
+          <svg class="opener__flow-arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="opener__flow-step">
+            <span class="opener__flow-num">3</span>
+            <div><strong>Joule &amp; the Autonomous Enterprise</strong><span>carry it forward across Finance, Supply Chain, Spend, HCM, CX</span></div>
+          </div>
+        </div>
+        <button class="btn btn-primary opener__cta" data-nav="next">
+          Begin the journey
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   HIDDEN — PRESENTER INTRODUCTION SLOT (removed from navigation)
+   ============================================================ */
+
+/* ============================================================
+   04 — HOW THE AUTONOMOUS ENTERPRISE IS BUILT (architecture)
+   ============================================================ */
+{
+  id: 'architecture',
+  navLabel: 'How It\'s Built',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">Step Two — SAP Business AI Platform</div>
+      <h2 class="headline">Welcome to the <em>Autonomous Enterprise</em></h2>
+      <p class="subhead">The beginning of better. People set the direction. AI executes.</p>
+    </div>
+
+    <div class="grid grid-2" style="align-items:center; gap:36px;">
+      <div>
+        <p class="body-text" style="margin-bottom:22px;">With Business Data Cloud as the foundation, YASREF gains the three layers that make the Autonomous Enterprise real — built one on top of the other, not bolted together.</p>
+        <div class="grid" style="gap:16px;">
+          <div class="pillar-card" style="display:flex; gap:16px; align-items:flex-start; padding:22px;">
+            <div class="icon-circle" style="margin-bottom:0;">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 5v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="pillar-card__title" style="margin-bottom:6px; font-size:16px;">Joule</div>
+              <div class="pillar-card__text">The engagement layer where people set intent, and Joule Assistants and Agents bring together the right data, workflow, and actions across SAP systems and beyond.</div>
+            </div>
+          </div>
+          <div class="pillar-card" style="display:flex; gap:16px; align-items:flex-start; padding:22px;">
+            <div class="icon-circle" style="margin-bottom:0;">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.6"/></svg>
+            </div>
+            <div>
+              <div class="pillar-card__title" style="margin-bottom:6px; font-size:16px;">SAP Autonomous Suite</div>
+              <div class="pillar-card__text">The operational core — applications, data, and AI agents automate functions across Finance, Spend, Supply Chain, HCM, and CX. Industry AI adds purpose-built intelligence for your regulatory and process needs.</div>
+            </div>
+          </div>
+          <div class="pillar-card" style="display:flex; gap:16px; align-items:flex-start; padding:22px;">
+            <div class="icon-circle" style="margin-bottom:0;">
+              <svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="5" rx="8" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5" stroke="currentColor" stroke-width="1.6"/></svg>
+            </div>
+            <div>
+              <div class="pillar-card__title" style="margin-bottom:6px; font-size:16px;">SAP Business AI Platform</div>
+              <div class="pillar-card__text">The foundation that combines deep process context, unified business data, and purpose-built models with enterprise governance.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="diagram-panel" style="background:#fff; display:flex; align-items:center; justify-content:center; padding:10px; max-height:calc(100vh - var(--brandbar-height) - var(--pagenav-height) - var(--footer-height) - 120px); overflow:hidden;">
+        <img src="media/img/sap-autonomous-enterprise.png" alt="SAP Autonomous Enterprise Architecture" loading="lazy" style="width:100%; height:100%; max-height:calc(100vh - var(--brandbar-height) - var(--pagenav-height) - var(--footer-height) - 140px); object-fit:contain; background:#fff;">
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <h3 class="story-step__title" style="margin-bottom:16px;">See it in action: the SAP Knowledge Graph</h3>
+      <p class="body-text" style="margin-bottom:20px; max-width:760px;">Underneath the platform sits the SAP Knowledge Graph — the semantic layer that lets Joule and every Agent understand how YASREF's business objects actually relate to one another. Watch how a single sales order connects across the model in seconds.</p>
+      <div class="video-frame" data-video-id="v-knowledge-graph">
+        <video src="media/video/amg-knowledge-graph-demo.mp4" data-src="media/video/amg-knowledge-graph-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Knowledge Graph Explorer demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Knowledge Graph Explorer — live demo</span>
+      </div>
+      <p class="video-caption">SAP Knowledge Graph Explorer: exploring entity relationships from a single Sales Order across the connected business data model.</p>
+    </div>
+  `
+},
+
+/* ============================================================
+   04C — ASSISTANT OVERVIEW (interactive catalog)
+   ============================================================ */
+{
+  id: 'assistant-overview',
+  navLabel: 'Assistant Catalog',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">Across every domain</div>
+      <h2 class="headline">Autonomous Domains: <em>Assistant Overview</em></h2>
+      <p class="subhead">Five domains. Dozens of Assistants. Hundreds of purpose-built Agents working underneath them — explore each domain below.</p>
+    </div>
+
+    <div class="tabs" id="domainTabs"></div>
+    <div id="domainPanel"></div>
+
+    <p class="video-caption" style="margin-top:28px;">Counts reflect the current SAP Autonomous Suite catalog and continue to expand as new Agents ship across every domain.</p>
+  `
+},
+
+/* ============================================================
+   04D — OIL & GAS VALUE CHAIN (NEW)
+   ============================================================ */
+{
+  id: 'oil-gas-value-chain',
+  navLabel: 'Oil & Gas Value Chain',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">Industry Intelligence</div>
+      <h2 class="headline">Oil & Gas <em>Value Chain</em></h2>
+      <p class="subhead">From upstream exploration to downstream refining and distribution — see how SAP's Autonomous Enterprise transforms every link in the Oil & Gas value chain with purpose-built AI, real-time data integration, and intelligent automation tailored for YASREF's operations.</p>
+    </div>
+
+    <div class="diagram-panel" style="background:#fff; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(204,34,41,0.08); box-shadow: 0 8px 40px rgba(58,170,53,0.08); border-radius:var(--radius-lg);">
+      <img src="media/img/oil-and-gas-autonomous.png" alt="Oil and Gas Autonomous Enterprise Value Chain — end-to-end view of upstream, midstream, and downstream operations powered by SAP Business AI" loading="lazy" style="width:100%; height:auto; display:block; object-fit:fill; background:#fff; margin:0; padding:0; border-radius:var(--radius-lg);">
+    </div>
+
+    <div style="margin-top:36px; padding:28px 32px; border-radius:var(--radius-lg); background:linear-gradient(135deg, var(--indigo-9), var(--indigo-7)); box-shadow: var(--shadow-float);">
+      <div class="grid grid-4" style="gap:20px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(28px,3vw,38px); color:#fff; line-height:1;">E2E</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Value Chain Coverage</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(28px,3vw,38px); color:#fff; line-height:1;">AI</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Embedded at Every Stage</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(28px,3vw,38px); color:#fff; line-height:1;">Real-Time</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Data-Driven Decisions</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(28px,3vw,38px); color:#fff; line-height:1;">360&deg;</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Operational Visibility</div>
+        </div>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   04B — JOULE IS YOUR ASSISTANT (Mobile Demo)
+   ============================================================ */
+{
+  id: 'joule-mobile',
+  navLabel: 'Joule is your Assistant',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">AI in your pocket</div>
+      <h2 class="headline">Joule is your Assistant</h2>
+      <p class="subhead">Joule works wherever you work — including your mobile device. See how Joule brings the full power of SAP Business AI to your fingertips, on the go.</p>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div class="video-frame" data-video-id="v-joule-mobile" data-modal="true">
+        <video src="media/video/joule-mobile.mp4" data-src="media/video/joule-mobile.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Joule Mobile demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Joule Work — Mobile Device</span>
+      </div>
+      <p class="video-caption">Joule on your mobile device — ask questions, trigger actions, and get AI-powered insights from anywhere, anytime.</p>
+    </div>
+  `
+},
+
+/* ============================================================
+   05 — JOULE, BEYOND CHAT
+   ============================================================ */
+{
+  id: 'joule-beyond-chat',
+  navLabel: 'Joule, Beyond Chat',
+  kind: 'light',
+  html: `
+    <div class="arch-strip">
+      <span class="arch-node is-current">Joule</span><span class="arch-arrow">→</span>
+      <span class="arch-node">SAP Autonomous Suite</span><span class="arch-arrow">→</span>
+      <span class="arch-node">SAP Business AI Platform</span>
+    </div>
+    <div class="section-head">
+      <div class="eyebrow">One place for work</div>
+      <h2 class="headline">Joule, <em>beyond chat</em></h2>
+      <p class="subhead">Less navigation. Faster action. Better decisions. AI does the busy work, so YASREF's people do their best work.</p>
+    </div>
+
+    <div class="diagram-panel" style="margin-bottom:36px;">
+      <img src="media/img/joule-beyond-chat.png" alt="Joule beyond chat — A new human advantage, plus the Conversations, Spaces, and Develop workspaces with live product screenshots" loading="lazy">
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="video-frame" data-video-id="v-joule-beyond-chat" data-modal="true">
+        <video src="media/video/career-development-agent.mp4" data-src="media/video/career-development-agent.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Career Development Agent demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Career Development Agent</span>
+      </div>
+      <p class="video-caption">Career Development Agent — see how Joule helps employees navigate career growth with AI-powered guidance.</p>
+    </div>
+
+    <div style="margin-top:32px; display:none;">
+      <div class="video-frame" data-video-id="v-joule-work">
+        <video src="media/video/joule-work-demo.mp4" data-src="media/video/joule-work-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Joule at work demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Joule at work — live demo</span>
+      </div>
+      <p class="video-caption">A new human advantage: watch how a single Joule workspace adapts to a real business goal.</p>
+    </div>
+  `
+},
+
+/* ============================================================
+   06B — SAP BUSINESS AI PLATFORM
+   ============================================================ */
+{
+  id: 'business-ai-platform',
+  navLabel: 'Business AI Platform',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">The Intelligence Engine</div>
+      <h2 class="headline">SAP <em>Business AI Platform</em></h2>
+      <p class="subhead">The foundation that combines deep process context, unified business data, and purpose-built AI models with enterprise-grade governance — powering every intelligent decision across YASREF's operations.</p>
+    </div>
+
+    <div class="diagram-panel" style="background:#fff; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(204,34,41,0.08); box-shadow: 0 8px 40px rgba(58,170,53,0.08); border-radius:var(--radius-lg);">
+      <img src="media/img/business-ai-platform.png" alt="SAP Business AI Platform — enterprise AI foundation with deep process context, unified business data, purpose-built models, and governance" loading="lazy" style="width:100%; height:auto; display:block; object-fit:fill; background:#fff; margin:0; padding:0; border-radius:var(--radius-lg);">
+    </div>
+  `
+},
+
+/* ============================================================
+   10 — AI IN ACTION: YASREF AI-POWERED REFINERY PLATFORM
+   ============================================================ */
+{
+  id: 'ai-in-action',
+  navLabel: 'AI in Action',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">YASREF AI Command Center — Live</div>
+      <h2 class="headline">AI <em>in Action</em></h2>
+      <p class="subhead" style="margin-left:auto; margin-right:auto;">Experience YASREF's AI-Powered Full-Conversion Refinery Platform — a real-time executive command center that unifies 14 source systems, 5.31 million sensor tags, and autonomous AI actions across every process unit, from crude reception to product export at Yanbu.</p>
+    </div>
+
+    <div style="margin-bottom:36px; position:relative; border-radius:var(--radius-lg); overflow:hidden; cursor:pointer; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 8px 40px rgba(58,170,53,0.12); border:1px solid rgba(204,34,41,0.10);" onclick="window.open('https://sap-btpemea-zs04.github.io/YASREF_AIRefinery/', '_blank')" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 56px rgba(204,34,41,0.22)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 40px rgba(58,170,53,0.12)';">
+      <img src="media/img/yasref-ai-powered-platform.png" alt="YASREF AI-Powered Full-Conversion Refinery Platform — Executive AI Command Center with real-time data streaming, sensor monitoring, and autonomous AI actions" loading="lazy" style="width:100%; height:auto; display:block; object-fit:fill; background:#fff; margin:0; padding:0;">
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.12) 50%, rgba(12,12,12,0.88) 100%); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding:36px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <div style="width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.95); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 28px rgba(0,0,0,0.30); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);">
+            <svg viewBox="0 0 24 24" fill="none" style="width:24px; height:24px;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="#5B1015" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(17px,2vw,22px); color:#fff; text-align:center; margin-bottom:8px;">Launch YASREF AI Refinery Platform</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.80); text-align:center; max-width:600px; line-height:1.55;">Explore the live AI Command Center — real-time crude-to-product operations, 5.31M sensor tags, predictive maintenance, and autonomous AI actions across all 14 source systems.</div>
+      </div>
+    </div>
+
+    <div style="padding:28px 32px; border-radius:var(--radius-lg); background:linear-gradient(135deg, var(--indigo-9), var(--indigo-7)); box-shadow: var(--shadow-float);">
+      <div class="grid grid-5" style="gap:20px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">398.7K</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">BPD Crude Throughput</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">5.31M</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Active Sensor Tags</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">$11.8</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Gross Refining Margin/bbl</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">1,837</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">AI Actions Executed</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">14</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Integrated Source Systems</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <div class="grid grid-3" style="gap:18px;">
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Real-Time AI Command Center</div>
+          <div class="pillar-card__text">Unified executive dashboard streaming data from DCS, PI, SAP S/4HANA, LIMS, SIS, and tank gauging systems — with 0.2s average latency and 99.93% data pipeline health.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 5v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Predictive Maintenance & Safety</div>
+          <div class="pillar-card__text">AI monitors 8,200 vibration and corrosion sensors, predicts equipment failures weeks in advance, and integrates with Triconex safety systems for SIL-3 verified protection.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Joule AI Data Processing Pipeline</div>
+          <div class="pillar-card__text">5.31M tags flow from Edge Processing through SAP Integration Suite, AI/ML Models, and Digital Twin to Joule AI — achieving 97.3% data quality and 99.97% pipeline uptime.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px; text-align:center;">
+      <a href="https://sap-btpemea-zs04.github.io/YASREF_AIRefinery/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-decoration:none; font-size:15px; padding:16px 32px;">
+        <svg viewBox="0 0 24 24" fill="none" style="width:18px; height:18px;"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        Launch YASREF AI Refinery Demo
+        <svg viewBox="0 0 24 24" fill="none" style="width:16px; height:16px;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="video-caption" style="margin-top:14px;">Experience the full AI-Powered Refinery Platform — real-time operations, autonomous AI actions, and predictive intelligence in a new tab.</p>
+    </div>
+  `
+},
+
+/* ============================================================
+   11 — SAP BUILD: BUILD AI AGENTS, APPS & WORKFLOWS
+   ============================================================ */
+{
+  id: 'sap-build',
+  navLabel: 'SAP Build',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">SAP Build — Joule Studio &amp; Integration Suite</div>
+      <h2 class="headline">Turn Ideas into <em>Enterprise Impact</em></h2>
+      <p class="subhead" style="margin-left:auto; margin-right:auto;">One solution to build AI agents, apps, and workflows — then deploy them without operational overhead and seamlessly connect them to your system.</p>
+    </div>
+
+    <div class="diagram-panel" style="background:#e8f4fc; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(204,34,41,0.12); box-shadow: 0 8px 40px rgba(58,170,53,0.10);">
+      <img src="media/img/sap-build-platform.png" alt="SAP Build Platform — Joule Studio and Integration Suite for building AI agents, applications, and automated workflows" loading="lazy" style="width:100%; height:100%; display:block; object-fit:cover; margin:0; padding:0;">
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="grid grid-2" style="gap:20px;">
+        <div class="pillar-card" style="padding:28px; text-align:center;">
+          <div class="icon-circle" style="margin:0 auto 16px auto; width:56px; height:56px;">
+            <svg viewBox="0 0 24 24" fill="none" style="width:26px; height:26px;"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:18px; margin-bottom:8px;">Joule Studio</div>
+          <div class="pillar-card__text">Design, train, and deploy AI agents with a visual low-code experience — powered by Joule intelligence and enterprise-grade governance built in from day one.</div>
+        </div>
+        <div class="pillar-card" style="padding:28px; text-align:center;">
+          <div class="icon-circle" style="margin:0 auto 16px auto; width:56px; height:56px;">
+            <svg viewBox="0 0 24 24" fill="none" style="width:26px; height:26px;"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:18px; margin-bottom:8px;">Integration Suite</div>
+          <div class="pillar-card__text">Seamlessly connect AI agents, apps, and workflows to any SAP or third-party system — pre-built connectors, event mesh, and API management at enterprise scale.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="section-head">
+        <div class="eyebrow">Empower Every Developer</div>
+        <h2 class="headline" style="font-size:clamp(22px,2.6vw,32px);">SAP Context, Governance, and <em>Best Practices</em> Follow</h2>
+        <p class="subhead">Give every developer — pro-code or low-code — the freedom to build with the tools they already use. SAP context, identity, and guardrails come with them.</p>
+      </div>
+
+      <div class="video-frame" data-video-id="v-sap-build-demo">
+        <video src="media/video/sap-build-demo.mp4" data-src="media/video/sap-build-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play SAP Build demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+      </div>
+      <p class="video-caption">See how SAP Build empowers developers to create AI agents, apps, and automated workflows with enterprise-grade governance.</p>
+    </div>
+
+    <div style="margin-top:28px; padding:24px 32px; border-radius:var(--radius-lg); background:linear-gradient(135deg, var(--indigo-9), var(--indigo-7)); box-shadow: var(--shadow-float);">
+      <div class="grid grid-3" style="gap:20px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">1</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Unified Platform</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">0</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Operational Overhead</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(26px,2.8vw,36px); color:#fff; line-height:1;">&infin;</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Developer Freedom</div>
+        </div>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   12 — JOULE FOR DEVELOPERS
+   ============================================================ */
+{
+  id: 'joule-for-developers',
+  navLabel: 'Joule for Developers',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">Built for SAP's own developers</div>
+      <h2 class="headline">Joule, <em>for Developers</em></h2>
+      <p class="subhead">The same Joule intelligence YASREF's business users rely on — purpose-built for SAP development teams, from full-stack application work to ABAP migration.</p>
+    </div>
+
+    <div style="margin-bottom:32px;">
+      <div class="video-frame" data-video-id="v-jfd-overview">
+        <video src="media/video/joule-for-developers-overview-more.mp4" data-src="media/video/joule-for-developers-overview-more.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Joule for Developers overview demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Joule for Developers — walkthrough</span>
+      </div>
+      <p class="video-caption">A walkthrough of Joule for Developers in action — full-stack application generation, end to end.</p>
+    </div>
+
+    <div style="margin-bottom:40px;">
+      <div class="video-frame" data-video-id="v-jfd-appgen">
+        <video src="media/video/joule-application-generation-demo.mp4" data-src="media/video/joule-application-generation-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Application Generation demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Application Generation — in action</span>
+      </div>
+      <p class="video-caption">Application Generation — turning a natural-language brief into working application code.</p>
+    </div>
+
+    <div class="section-head">
+      <div class="eyebrow">What's inside</div>
+      <h3 class="headline" style="font-size:clamp(24px,2.8vw,32px);">One assistant, the full development lifecycle</h3>
+    </div>
+    <div class="diagram-panel">
+      <img src="media/img/joule-for-developers.png" alt="Joule for Developers — comprehensive AI capabilities including Code Generation, Unit Test Generation, Artifacts Generation, Artifacts Summarization, Code Explanation, Application Generation, Code Optimization, full-stack and low-code application development, ABAP development, specialized SAP-centric outcomes, integrated AI tools, and process automation" loading="lazy">
+    </div>
+  `
+},
+
+/* ============================================================
+   12 — JOULE AGENTS / JOULE STUDIO + LIVE WORKSHOP
+   ============================================================ */
+{
+  id: 'joule-agents',
+  navLabel: 'Build Your Own Agent',
+  kind: 'light',
+  html: `
+    <div class="section-head">
+      <div class="eyebrow">Build on the web. Take the code with you.</div>
+      <h2 class="headline">Working side by side with Joule — <em>so business and IT build together</em></h2>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom:44px;">
+      <div class="pillar-card" style="padding:20px;">
+        <div class="pillar-card__title" style="font-size:15px;">Lightweight and high-speed</div>
+        <div class="pillar-card__text">An SAP coding agent enabled by best-practice and tool expertise, built directly into the browser.</div>
+      </div>
+      <div class="pillar-card" style="padding:20px;">
+        <div class="pillar-card__title" style="font-size:15px;">Agents, automations, and data models</div>
+        <div class="pillar-card__text">All in one place — no switching tools to go from idea to working agent.</div>
+      </div>
+      <div class="pillar-card" style="padding:20px;">
+        <div class="pillar-card__title" style="font-size:15px;">Idea to deployment</div>
+        <div class="pillar-card__text">Full support from first prototype to a skill running in production.</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:44px;">
+      <div class="video-frame" data-video-id="v-build">
+        <video src="media/video/sap-build-playground-demo.mp4" data-src="media/video/sap-build-playground-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play SAP Build Playground demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> SAP Build Playground — walkthrough</span>
+      </div>
+      <p class="video-caption">The SAP Build Playground: the simplified, demo-safe environment your IT team will use in the next exercise.</p>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <div class="video-frame" data-video-id="v-studio-e2e">
+        <video src="media/video/joule-studio-e2e-demo.mp4" data-src="media/video/joule-studio-e2e-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play E2E Joule Studio demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> E2E Joule Studio Demo</span>
+      </div>
+      <p class="video-caption">Joule Studio: working side by side with Joule from a fresh workspace to a deployed skill.</p>
+    </div>
+
+    
+  `
+},
+
+/* ============================================================
+   13 — JOULE FOR CONSULTANTS (J4C)
+   ============================================================ */
+{
+  id: 'joule-for-consultants',
+  navLabel: 'Joule for Consultants',
+  kind: 'dark',
+  html: `
+    <div class="hero" style="min-height:auto; padding:56px;">
+      <svg class="hero__crystal-deco" style="opacity:0.5;" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="#ffffff" fill-rule="evenodd"/>
+      </svg>
+      <div class="hero__content" style="max-width:600px;">
+        <div class="hero__eyebrow"><span class="dot"></span> For the implementation team</div>
+        <h1 class="hero__title">Introducing Joule <em>for Consultants</em></h1>
+        <p class="hero__sub">The same Joule intelligence YASREF's business users will rely on — now built directly into how SAP and partner teams implement, configure, and run the project.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:44px;">
+      <div class="video-frame" data-video-id="v-j4c">
+        <video src="media/video/joule-for-consultants-demo.mp4" data-src="media/video/joule-for-consultants-demo.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play Joule for Consultants demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> Joule for Consultants — full walkthrough</span>
+      </div>
+      <p class="video-caption">A complete look at how Joule accelerates the implementation lifecycle itself — for the team delivering YASREF's RISE with SAP S/4HANA transformation.</p>
+    </div>
+  `
+},
+
+/* ============================================================
+   14 — AI FOUNDATION: SAP AI SERVICES & MODELS
+   ============================================================ */
+{
+  id: 'ai-foundation',
+  navLabel: 'AI Foundation',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">SAP AI Foundation</div>
+      <h2 class="headline">Explore, Orchestrate, and <em>Deploy AI</em></h2>
+      <p class="subhead" style="margin-left:auto; margin-right:auto;">Leverage a powerful product set to build, run and integrate custom AI solutions and agents — with SAP's enterprise-grade AI services, foundation models, and infrastructure at your fingertips.</p>
+    </div>
+
+    <div class="diagram-panel" style="background:#eef0f5; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(93,54,255,0.10); box-shadow: 0 8px 40px rgba(93,54,255,0.08);">
+      <img src="media/img/ai-foundation-slide1.png" alt="Explore, orchestrate, and deploy AI — SAP AI Launchpad with foundation models including SAP RPT 1.5, Claude 4.8 Opus, GPT-5.5, Gemini 3.5 Flash, Mistral Small 4, Generative AI Hub, Prompt Editor, and mobile AI chat" loading="lazy" style="width:100%; height:100%; display:block; object-fit:cover; margin:0; padding:0;">
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="section-head section-head--center">
+        <div class="eyebrow" style="justify-content:center;">SAP AI Services and Models</div>
+        <h2 class="headline" style="font-size:clamp(22px,2.6vw,32px);">A Powerful Product Set to Build, Run and <em>Integrate Custom AI</em></h2>
+      </div>
+
+      <div class="diagram-panel" style="background:#f4f2fa; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(93,54,255,0.10); box-shadow: 0 8px 40px rgba(93,54,255,0.08);">
+        <img src="media/img/ai-foundation-slide2.png" alt="SAP AI services and models — Generative AI Hub for exploring and productizing AI, SAP Document AI for automating document-based processes, SAP HANA Cloud for running AI workloads on databases, with core technologies SAP Knowledge Graph and AI Models" loading="lazy" style="width:100%; height:100%; display:block; object-fit:cover; margin:0; padding:0;">
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="grid grid-3" style="gap:18px;">
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Generative AI Hub</div>
+          <div class="pillar-card__text">Explore, orchestrate, and productize AI at scale. Experiment with foundation models — SAP RPT 1.5, GPT-5.5, Claude 4.8 Opus, Gemini 3.5 Flash, and Mistral Small 4 — all from a single enterprise-grade hub.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">SAP Document AI</div>
+          <div class="pillar-card__text">Automate document-based processes and extract intelligence from any structured or unstructured document — invoices, contracts, purchase orders, and compliance reports at enterprise scale.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">SAP HANA Cloud</div>
+          <div class="pillar-card__text">Run AI workloads directly on the database layer — eliminate data movement and processing delays with in-database machine learning, vector search, and real-time analytics at scale.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; padding:24px 32px; border-radius:var(--radius-lg); background:linear-gradient(135deg, #1C0B6F, #5D36FF); box-shadow: var(--shadow-float);">
+      <div class="grid grid-4" style="gap:20px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(24px,2.6vw,34px); color:#fff; line-height:1;">7+</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Foundation Models</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(24px,2.6vw,34px); color:#fff; line-height:1;">3</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Core AI Services</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(24px,2.6vw,34px); color:#fff; line-height:1;">1</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Unified AI Platform</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(24px,2.6vw,34px); color:#fff; line-height:1;">&infin;</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">AI Possibilities</div>
+        </div>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   15 — AI FOUNDATION: LIVE DEMO
+   ============================================================ */
+{
+  id: 'ai-foundation-demo',
+  navLabel: 'AI Foundation Demo',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">SAP AI Foundation — Live Demo</div>
+      <h2 class="headline">See SAP AI Foundation <em>in Action</em></h2>
+      <p class="subhead" style="margin-left:auto; margin-right:auto;">Experience how SAP AI Foundation brings together Generative AI Hub, SAP Document AI, and SAP HANA Cloud — a unified platform for building, running, and scaling enterprise AI solutions and agents.</p>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div class="video-frame" data-video-id="v-ai-foundation-demo">
+        <video src="media/video/ai-foundation.mp4" data-src="media/video/ai-foundation.mp4" preload="none" playsinline></video>
+        <button class="video-frame__play" aria-label="Play AI Foundation demo">
+          <span class="video-frame__play-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7z" fill="currentColor"/></svg></span>
+        </button>
+        <span class="video-frame__label"><span class="rec-dot"></span> AI Foundation — Complete Demo</span>
+      </div>
+      <p class="video-caption">A complete walkthrough of SAP AI Foundation — explore the Generative AI Hub, experiment with foundation models, orchestrate AI pipelines, and deploy enterprise-ready AI agents at scale.</p>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="grid grid-3" style="gap:18px;">
+        <div class="pillar-card" style="padding:22px; text-align:center;">
+          <div class="icon-circle" style="margin:0 auto 14px auto;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 5v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:15px;">Enterprise-Grade Governance</div>
+          <div class="pillar-card__text">Built-in guardrails, audit trails, and compliance controls ensure every AI model and agent operates within enterprise security policies.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px; text-align:center;">
+          <div class="icon-circle" style="margin:0 auto 14px auto;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:15px;">Multi-Model Orchestration</div>
+          <div class="pillar-card__text">Choose from SAP RPT, GPT-5.5, Claude 4.8 Opus, Gemini 3.5, and Mistral — orchestrate the right model for every use case from a single hub.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px; text-align:center;">
+          <div class="icon-circle" style="margin:0 auto 14px auto;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:15px;">SAP Knowledge Graph</div>
+          <div class="pillar-card__text">Core technology that provides deep SAP domain context, enabling AI models to reason about business processes, data relationships, and enterprise semantics.</div>
+        </div>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   16 — SAP INTEGRATION SUITE
+   ============================================================ */
+{
+  id: 'sap-integration-suite',
+  navLabel: 'SAP Integration Suite',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">SAP Integration Suite &amp; SAP Business AI Platform</div>
+      <h2 class="headline">Integration Suite in the <em>Agentic World</em></h2>
+      <p class="subhead" style="margin-left:auto; margin-right:auto;">SAP Integration Suite enables modernization, consolidation, and agentic integration — a foundational platform for governed agentic integration into the enterprise landscape.</p>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div style="margin-bottom:12px;">
+        <div class="eyebrow" style="font-size:12px; margin-bottom:8px;">SAP Integration Suite &amp; Business AI Platform Architecture</div>
+      </div>
+      <div class="diagram-panel" style="background:#f5f7fa; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(204,34,41,0.10); box-shadow: 0 8px 40px rgba(58,170,53,0.10);">
+        <img src="media/img/sap-is-slide1.png" alt="SAP Integration Suite and SAP Business AI Platform — architecture showing Joule, SAP Autonomous Suite, Integration Suite initiatives including MCP and AI Gateway, Developer Hub, Event Hub, AEM, n8n, and SAP/Non-SAP Connectivity" loading="lazy" style="width:100%; height:100%; display:block; object-fit:cover; margin:0; padding:0;">
+      </div>
+    </div>
+
+    <div style="margin-bottom:36px;">
+      <div style="margin-bottom:12px;">
+        <div class="eyebrow" style="font-size:12px; margin-bottom:8px;">SAP Integration Suite in Agentic World</div>
+      </div>
+      <div class="diagram-panel" style="background:#f5f7fa; display:flex; align-items:stretch; justify-content:center; padding:0; overflow:hidden; border:1px solid rgba(204,34,41,0.10); box-shadow: 0 8px 40px rgba(58,170,53,0.10);">
+        <img src="media/img/sap-is-slide2.png" alt="SAP Integration Suite in Agentic World — showing new business process participants including Joule, Custom built agents, SAP agents, Third-party agents; new integration patterns; AI Integration Foundation, Accelerators, and Core layers; and traditional business process participants" loading="lazy" style="width:100%; height:100%; display:block; object-fit:cover; margin:0; padding:0;">
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="section-head">
+        <div class="eyebrow">Selected Initiatives</div>
+        <h3 class="headline" style="font-size:clamp(22px,2.6vw,30px);">Key <em>Integration Suite</em> Capabilities</h3>
+      </div>
+      <div class="grid grid-2" style="gap:18px; margin-bottom:20px;">
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 5v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">MCP &amp; AI Gateway</div>
+          <div class="pillar-card__text">Agent Governance via MCP and A2A protocols, AI Gateway for managed LLM connectivity, and agent orchestration for governed agentic integration.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Event Hub &amp; Advanced Event Mesh</div>
+          <div class="pillar-card__text">Real-time event-driven integration across hybrid landscapes with Advanced Event Mesh (AEM) and HANA Cloud integration for streaming data pipelines.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Developer Hub &amp; n8n</div>
+          <div class="pillar-card__text">Unified developer portal and low-code automation with n8n for rapid integration flow creation, API management, and SAP/non-SAP connectivity.</div>
+        </div>
+        <div class="pillar-card" style="padding:22px;">
+          <div class="icon-circle" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="pillar-card__title" style="font-size:16px;">Runtime Governance &amp; A2A</div>
+          <div class="pillar-card__text">Trust layer for mediated agent-to-agent communication, runtime governance for AI Agent Hub, and secure SAP/non-SAP connectivity across enterprise landscapes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="section-head">
+        <div class="eyebrow">New Integration Patterns</div>
+        <h3 class="headline" style="font-size:clamp(20px,2.4vw,28px);">Enabling New Business Process <em>Participants</em></h3>
+      </div>
+      <div class="grid grid-5" style="gap:14px;">
+        <div style="text-align:center; padding:18px 12px; border-radius:var(--radius-lg); background:rgba(204,34,41,0.04); border:1px solid rgba(204,34,41,0.08);">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--indigo-7);">System to Agent</div>
+        </div>
+        <div style="text-align:center; padding:18px 12px; border-radius:var(--radius-lg); background:rgba(204,34,41,0.04); border:1px solid rgba(204,34,41,0.08);">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--indigo-7);">Agent to Agent</div>
+        </div>
+        <div style="text-align:center; padding:18px 12px; border-radius:var(--radius-lg); background:rgba(204,34,41,0.04); border:1px solid rgba(204,34,41,0.08);">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--indigo-7);">Agent to System</div>
+        </div>
+        <div style="text-align:center; padding:18px 12px; border-radius:var(--radius-lg); background:rgba(204,34,41,0.04); border:1px solid rgba(204,34,41,0.08);">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--indigo-7);">Data to Context</div>
+        </div>
+        <div style="text-align:center; padding:18px 12px; border-radius:var(--radius-lg); background:rgba(204,34,41,0.04); border:1px solid rgba(204,34,41,0.08);">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:14px; color:var(--indigo-7);">Prompt to LLM</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px; padding:28px 32px; border-radius:var(--radius-lg); background:linear-gradient(135deg, var(--indigo-9), var(--indigo-7)); box-shadow: var(--shadow-float);">
+      <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(16px,1.8vw,20px); color:#fff;">SAP Integration Suite Architecture</div>
+      </div>
+      <div class="grid grid-3" style="gap:20px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(14px,1.6vw,18px); color:#fff; line-height:1.2;">AI Integration Foundation</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Agent Governance, AI Gateway, Orchestration, RAG, LLM Connector</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(14px,1.6vw,18px); color:#fff; line-height:1.2;">Accelerators</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Integration Flow Generation, Error Resolution, Migration, Analytics</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:var(--font-display); font-weight:700; font-size:clamp(14px,1.6vw,18px); color:#fff; line-height:1.2;">Core</div>
+          <div style="font-size:11.5px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:6px;">Cloud Integration, API Management, Connectors, Event Mesh, Developer Hub</div>
+        </div>
+      </div>
+    </div>
+  `
+},
+
+/* ============================================================
+   HIDDEN — AGENT-LED TRANSFORMATION (removed from navigation)
+   ============================================================ */
+
+/* ============================================================
+   15 — GET STARTED WITH JOULE TODAY (closing)
+   ============================================================ */
+{
+  id: 'get-started',
+  navLabel: 'Get Started',
+  kind: 'dark',
+  html: `
+    <div class="hero">
+      <svg class="hero__crystal-deco" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="gsCrystal1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#CC2229"/><stop offset="50%" stop-color="#E6333A"/><stop offset="100%" stop-color="#3AAA35"/>
+          </linearGradient>
+        </defs>
+        <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="url(#gsCrystal1)" fill-rule="evenodd"/>
+      </svg>
+      <div class="hero__content">
+        <div class="hero__eyebrow"><span class="dot"></span> Get started with Joule today</div>
+        <h1 class="hero__title">Joule Base is already included <em>in your SAP subscription.</em></h1>
+        <p class="hero__sub">Get access to Agents, Assistants, and advanced enterprise AI capabilities with Joule Premium — and bring this journey back to YASREF's own environment.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="qr-card" style="padding:40px;">
+        <div class="qr-card__inner" style="width:100%;">
+          <div style="display:flex; justify-content:center; flex-wrap:wrap;">
+            <div style="text-align:center; max-width:240px; margin-right:385px; margin-bottom:24px;">
+              <div class="qr-card__box qr-card__box--image" style="margin-bottom:16px;">
+                <img src="media/img/qr-activate-joule.png" alt="QR code to activate Joule Base for free" class="qr-card__img">
+              </div>
+              <div class="qr-card__title" style="font-size:15px;">Activate Joule Base for free</div>
+              <p class="qr-card__sub">With your existing SAP cloud subscription — no separate purchase needed to begin.</p>
+            </div>
+            <div style="text-align:center; max-width:240px;">
+              <div class="qr-card__box qr-card__box--image" style="margin-bottom:16px;">
+                <img src="media/img/qr-learning-course.png" alt="QR code to start the Joule learning free online course" class="qr-card__img">
+              </div>
+              <div class="qr-card__title" style="font-size:15px;">Start the Joule learning course</div>
+              <p class="qr-card__sub">A free, self-paced online course for YASREF's teams to go deeper after today.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing-hero">
+      <svg class="closing-hero__crystal" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="closeCrystal1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#CC2229"/><stop offset="50%" stop-color="#E6333A"/><stop offset="100%" stop-color="#3AAA35"/>
+          </linearGradient>
+        </defs>
+        <path d="M 36 6 Q 50 0 64 6 L 88 30 Q 95 37 89 44 L 56 91 Q 50 99 44 91 L 11 44 Q 5 37 12 30 Z M 50 32 L 56 46 L 70 50 L 56 54 L 50 68 L 44 54 L 30 50 L 44 46 Z" fill="url(#closeCrystal1)" fill-rule="evenodd"/>
+      </svg>
+      <p class="hero__eyebrow" style="margin:0 auto 18px; display:inline-flex;">The beginning of better.</p>
+      <h2 class="headline" style="font-size:clamp(36px,5vw,58px);">Thank you.</h2>
+    </div>
+  `
+},
+];
+
+/* ============================================================
+   ASSISTANT CATALOG DATA (for the interactive domain tabs
+   in the 'assistant-overview' section). 5 Autonomous Domains,
+   51 Assistants, and their Agent counts — matched to the latest
+   SAP Autonomous Suite catalog (updated September 2026).
+   ============================================================ */
+const ASSISTANT_DOMAINS = [
+  {
+    key: 'finance',
+    label: 'Autonomous Finance',
+    icon: `<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M8 13l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    assistants: [
+      ['Accounts Payable Assistant','3 Agents'],
+      ['Accounts Receivable Assistant','11 Agents'],
+      ['Billing Assistant','4 Agents'],
+      ['Cash and Treasury Assistant','3 Agents'],
+      ['Enterprise Architecture Assistant','3 Agents'],
+      ['Expense Management Assistant','4 Agents'],
+      ['Financial Closing Assistant','6 Agents'],
+      ['Financial Planning Assistant','5 Agents'],
+      ['Governance Assistant','3 Agents'],
+      ['Sales Operations Assistant','4 Agents'],
+      ['Tax and Compliance Assistant','11 Agents'],
+      ['Travel Assistant','2 Agents'],
+    ]
+  },
+  {
+    key: 'supply-chain',
+    label: 'Autonomous Supply Chain',
+    icon: `<svg viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 7v10l9 4 9-4V7M12 11v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+    assistants: [
+      ['Product Design Assistant','7 Agents'],
+      ['Planning Assistant','5 Agents'],
+      ['Manufacturing Assistant','3 Agents'],
+      ['Logistics Assistant','11 Agents'],
+      ['Asset & Service Assistant','5 Agents'],
+    ]
+  },
+  {
+    key: 'spend',
+    label: 'Autonomous Spend',
+    icon: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1 3 2.2c0 3-6 1.3-6 4.2 0 1.3 1.3 2.3 3 2.3s3-1 3-2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+    assistants: [
+      ['Buying Assistant','3 Agents'],
+      ['Category Mgmt Assistant','3 Agents'],
+      ['Invoicing Assistant','11 Agents'],
+      ['Procurement Contract Assistant','3 Agents'],
+      ['Receiving Assistant','4 Agents'],
+      ['Requisition Assistant','2 Agents'],
+      ['Services Procurement Assistant','3 Agents'],
+      ['Sourcing Assistant','4 Agents'],
+      ['Supplier Management Assistant','5 Agents'],
+      ['Business Network Assistant','12 Agents'],
+    ]
+  },
+  {
+    key: 'hcm',
+    label: 'Autonomous HCM',
+    icon: `<svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="3.2" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="8.5" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M3 20c0-3.6 2.7-6.2 6-6.2s6 2.6 6 6.2M15 20c0-2.6 1.6-4.7 4-5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+    assistants: [
+      ['Career and Talent Development','5 Agents'],
+      ['Compensation Assistant','3 Agents'],
+      ['Core HR Assistant','4 Agents'],
+      ['HR Knowledge Assistant','2 Agents'],
+      ['HR Service Assistant','5 Agents'],
+      ['HR System Assistant','5 Agents'],
+      ['Learning Assistant','4 Agents'],
+      ['Onboarding Assistant','4 Agents'],
+      ['Payroll Assistant','3 Agents'],
+      ['People Intelligent Assistant','3 Agents'],
+      ['Performance Goals Assistant','7 Agents'],
+      ['Recruiting Assistant','5 Agents'],
+      ['Skills Assistant','4 Agents'],
+      ['Time Assistant','4 Agents'],
+    ]
+  },
+  {
+    key: 'cx',
+    label: 'Autonomous CX',
+    icon: `<svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.5 8.5 0 01-12.4 7.55L3 20l1.05-5.4A8.5 8.5 0 1121 11.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+    assistants: [
+      ['Campaign Assistant','4 Agents'],
+      ['Case Management Assistant','6 Agents'],
+      ['Content Assistant','3 Agents'],
+      ['Deal Closing Assistant','3 Agents'],
+      ['Deal Qualification Assistant','4 Agents'],
+      ['Merchandising Assistant','7 Agents'],
+      ['Order Management Assistant','3 Agents'],
+      ['Sales Assistant','4 Agents'],
+      ['Self-Service Assistant','3 Agents'],
+      ['Shopping Assistant','3 Agents'],
+    ]
+  },
+];
+
+/* ============================================================
+   JOULE WIDGET — contextual suggestion prompts per section.
+   Purely illustrative front-end interaction (no live model
+   call) so the widget feels alive throughout the journey.
+   ============================================================ */
+const JOULE_SUGGESTIONS = {
+  'usecase': ["How does AI predict equipment failures before they happen?", "What does Business Data Cloud unify for a refinery?", "How can YASREF optimize crude blend with AI?"],
+  'intro': ["Tell me more about today's session"],
+  'architecture': ["Explain the three layers in plain terms", "What is the SAP Knowledge Graph?"],
+  'assistant-overview': ["Which domain has the most agents?", "Show me Finance assistants"],
+  'oil-gas-value-chain': ["How does AI transform the Oil & Gas value chain?", "What does end-to-end coverage mean for YASREF?"],
+  'joule-mobile': ["Can Joule work on mobile devices?", "What actions can I trigger from my phone?"],
+  'joule-beyond-chat': ["What's the difference between a Space and a Conversation?", "Can business users build their own agents?"],
+  'business-ai-platform': ["What makes SAP Business AI Platform different?", "How does this power YASREF's operations?"],
+  'hr-agent': ["How much time does this save managers?", "When is this agent planned to ship?"],
+  'joule-for-developers': ["What can Joule generate for our developers?", "Does this work with ABAP?"],
+  'joule-for-consultants': ["How does this help our implementation timeline?"],
+  'joule-agents': ["How do I join the live workshop?", "What can our IT team build in 10 minutes?"],
+  'agent-led': ["How do AI agents accelerate ERP transformation?", "What stages of the project does this cover?"],
+  'get-started': ["How do we activate Joule Base?", "Where do I find the learning course?"],
+};
+
+</script>
+<script>
+/* ============================================================
+   APP.JS — Interactive engine
+   Handles: section rendering & navigation, journey rail / mobile
+   drawer sync, strict video lifecycle (stop-on-leave), domain
+   tab switching, and the Joule assistant widget.
+   ============================================================ */
+(function(){
+  'use strict';
+
+  /* Safety polyfill: NodeList.forEach (standard since 2016, but
+     guards against unusual embedded WebViews in corporate kiosks) */
+  if (window.NodeList && !NodeList.prototype.forEach){
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+
+  let currentIndex = 0;
+  const stage = document.getElementById('stage');
+  const journeyList = document.getElementById('journeyList');
+  const navDrawerList = document.getElementById('navDrawerList');
+  const ambientBg = document.getElementById('ambientBg');
+  const brandBar = document.getElementById('brandBar');
+
+  /* ---------- Build section DOM nodes once ---------- */
+  function buildSections(){
+    JOURNEY_SECTIONS.forEach((sec, i) => {
+      const el = document.createElement('section');
+      el.className = 'section' + (sec.kind === 'dark' ? ' section--dark' : '');
+      el.id = 'sec-' + sec.id;
+      el.dataset.index = i;
+      el.innerHTML = sec.html;
+      stage.appendChild(el);
+    });
+  }
+
+  /* ---------- Build rail + drawer nav items ---------- */
+  function buildNav(){
+    JOURNEY_SECTIONS.forEach((sec, i) => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.className = 'rail-item';
+      btn.dataset.index = i;
+      btn.innerHTML = `<span class="rail-item__dot"></span><span class="rail-item__label">${sec.navLabel}</span>`;
+      btn.addEventListener('click', () => goTo(i));
+      li.appendChild(btn);
+      journeyList.appendChild(li);
+
+      const dItem = document.createElement('li');
+      const dBtn = document.createElement('button');
+      dBtn.className = 'nav-drawer__item';
+      dBtn.dataset.index = i;
+      dBtn.innerHTML = `<span class="rail-item__dot"></span><span>${sec.navLabel}</span>`;
+      dBtn.addEventListener('click', () => { goTo(i); closeDrawer(); });
+      dItem.appendChild(dBtn);
+      navDrawerList.appendChild(dItem);
+    });
+  }
+
+  /* ---------- Stop ALL playing videos (lifecycle requirement) ---------- */
+  function stopAllVideos(exceptEl){
+    const videos = document.querySelectorAll('video');
+    for (let i = 0; i < videos.length; i++){
+      const v = videos[i];
+      if (v === exceptEl) continue;
+      if (!v.paused) v.pause();
+      try { v.currentTime = 0; } catch(e){ /* not yet seekable, safe to ignore */ }
+
+      // Reset frame UI back to "play" state
+      const frame = v.closest('.video-frame');
+      if (frame){
+        const playBtn = frame.querySelector('.video-frame__play');
+        const label = frame.querySelector('.video-frame__label');
+        if (playBtn) playBtn.classList.remove('is-hidden');
+        if (label) label.classList.remove('is-hidden');
+      }
+
+      // Release loaded source so large files aren't held in memory off-screen.
+      // Only do this for videos the user actually started loading/playing
+      // (tracked via data-loaded) — videos still showing their original,
+      // never-played default src should be left alone, or every video would
+      // lose its src the instant the page loads (during the initial goTo).
+      if (v.dataset.loaded === 'true'){
+        v.removeAttribute('src');
+        v.load();
+        v.dataset.loaded = 'false';
+      }
+    }
+  }
+
+  /* ---------- Navigate to a section index ---------- */
+  function goTo(index){
+    if (index < 0 || index >= JOURNEY_SECTIONS.length) return;
+    stopAllVideos(null);
+    closeVideoModal();
+
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('is-active'));
+    const target = document.getElementById('sec-' + JOURNEY_SECTIONS[index].id);
+    target.classList.add('is-active');
+    target.scrollTop = 0;
+    stage.scrollTop = 0;
+    window.scrollTo(0,0);
+
+    currentIndex = index;
+    updateChrome();
+
+    // Lazy-init domain tabs the first time we land on that section
+    if (JOURNEY_SECTIONS[index].id === 'assistant-overview' && !window.__domainTabsInit){
+      initDomainTabs();
+      window.__domainTabsInit = true;
+    }
+
+    // Only auto-rotate the opener's AI-insight tabs while actually on that page
+    if (JOURNEY_SECTIONS[index].id === 'usecase'){
+      startOpenerRotation();
+    } else {
+      stopOpenerRotation();
+    }
+
+    // Refresh Joule suggestions contextually
+    refreshJouleSuggestions();
+  }
+
+  /* ---------- Update rail / drawer / progress / dark mode chrome ---------- */
+  function updateChrome(){
+    const sec = JOURNEY_SECTIONS[currentIndex];
+
+    document.querySelectorAll('.rail-item').forEach(b => {
+      const i = parseInt(b.dataset.index,10);
+      b.classList.toggle('is-active', i === currentIndex);
+      b.classList.toggle('is-done', i < currentIndex);
+    });
+    document.querySelectorAll('.nav-drawer__item').forEach(b => {
+      const i = parseInt(b.dataset.index,10);
+      b.classList.toggle('is-active', i === currentIndex);
+    });
+
+    // Scroll active rail item into view
+    const activeRail = document.querySelector('.rail-item.is-active');
+    if (activeRail && typeof activeRail.scrollIntoView === 'function'){
+      activeRail.scrollIntoView({ block:'nearest', behavior:'smooth' });
+    }
+
+    // Dark hero chrome toggle
+    const isDark = sec.kind === 'dark';
+    ambientBg.classList.toggle('is-dark', isDark);
+    brandBar.classList.toggle('is-dark', isDark);
+
+    // Prev/Next buttons
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === JOURNEY_SECTIONS.length - 1;
+    document.getElementById('prevLabel').textContent = currentIndex === 0 ? 'Start' : JOURNEY_SECTIONS[currentIndex-1].navLabel;
+    document.getElementById('nextLabel').textContent = currentIndex === JOURNEY_SECTIONS.length - 1 ? 'End' : JOURNEY_SECTIONS[currentIndex+1].navLabel;
+
+    // Progress bar
+    const pct = (currentIndex / (JOURNEY_SECTIONS.length - 1)) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('currentIdx').textContent = currentIndex + 1;
+    document.getElementById('totalIdx').textContent = JOURNEY_SECTIONS.length;
+  }
+
+  /* ---------- Mobile drawer ---------- */
+  function openDrawer(){
+    document.getElementById('navDrawer').classList.add('is-open');
+    document.getElementById('navToggle').setAttribute('aria-expanded','true');
+  }
+  function closeDrawer(){
+    document.getElementById('navDrawer').classList.remove('is-open');
+    document.getElementById('navToggle').setAttribute('aria-expanded','false');
+  }
+
+  /* ---------- Video frame play/pause wiring (event delegation) ---------- */
+  function wireVideoFrames(){
+    stage.addEventListener('click', (e) => {
+      const playBtn = e.target.closest('.video-frame__play');
+      if (!playBtn) return;
+      const frame = playBtn.closest('.video-frame');
+      const video = frame.querySelector('video');
+
+      // Videos marked data-modal="true" open in the centered pop-up player
+      // instead of playing inline (used for the "What Changes" demo reel).
+      if (frame.dataset.modal === 'true'){
+        openVideoModal(video, frame);
+        return;
+      }
+
+      // Stop any other playing video first (only one plays at a time)
+      stopAllVideos(video);
+
+      if (video.dataset.loaded !== 'true'){
+        video.src = video.dataset.src;
+        video.dataset.loaded = 'true';
+        video.load();
+      }
+      video.controls = true;
+      try {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function'){
+          playPromise.catch(()=>{ /* autoplay/sound restrictions — user can use native controls */ });
+        }
+      } catch (err){
+        /* Some browsers throw synchronously rather than rejecting a promise —
+           the user can still use native video controls to start playback. */
+      }
+      playBtn.classList.add('is-hidden');
+      const label = frame.querySelector('.video-frame__label');
+      if (label) label.classList.add('is-hidden');
+    });
+
+    // When a video ends, restore the play overlay
+    stage.addEventListener('ended', (e) => {
+      if (e.target.tagName !== 'VIDEO') return;
+      const frame = e.target.closest('.video-frame');
+      if (!frame) return;
+      const playBtn = frame.querySelector('.video-frame__play');
+      if (playBtn) playBtn.classList.remove('is-hidden');
+      const label = frame.querySelector('.video-frame__label');
+      if (label) label.classList.remove('is-hidden');
+    }, true);
+  }
+
+  /* ---------- Video modal (centered pop-up player) ---------- */
+  function openVideoModal(sourceVideo, frame){
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoModalPlayer');
+    const labelEl = document.getElementById('videoModalLabel');
+    if (!modal || !player) return;
+
+    // Stop any inline videos playing elsewhere first
+    stopAllVideos(null);
+
+    const src = sourceVideo.dataset.src || sourceVideo.getAttribute('src');
+    player.src = src;
+    player.load();
+
+    const sourceLabel = frame.querySelector('.video-frame__label');
+    labelEl.textContent = sourceLabel ? sourceLabel.textContent.trim() : '';
+
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    try {
+      const playPromise = player.play();
+      if (playPromise && typeof playPromise.catch === 'function'){
+        playPromise.catch(()=>{ /* autoplay/sound restrictions — native controls remain available */ });
+      }
+    } catch (err){ /* see note above */ }
+  }
+
+  function closeVideoModal(){
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoModalPlayer');
+    if (!modal || !player) return;
+    if (!player.paused) player.pause();
+    player.removeAttribute('src');
+    player.load();
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function initVideoModal(){
+    const modal = document.getElementById('videoModal');
+    const backdrop = document.getElementById('videoModalBackdrop');
+    const closeBtn = document.getElementById('videoModalClose');
+    if (!modal) return;
+    if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
+    if (backdrop) backdrop.addEventListener('click', closeVideoModal);
+    document.addEventListener('keydown', (e) => {
+      const isEscape = e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
+      if (isEscape && modal.classList.contains('is-open')) closeVideoModal();
+    });
+  }
+
+  /* ---------- Opener AI-insight tabs (interactive, auto-rotating) ---------- */
+  let openerRotateTimer = null;
+  let openerActiveIndex = 0;
+
+  function renderOpenerInsight(index, fromAutoRotate){
+    if (typeof OPENER_INSIGHTS === 'undefined' || !OPENER_INSIGHTS[index]) return;
+    const data = OPENER_INSIGHTS[index];
+    const textEl = document.getElementById('openerInsightText');
+    const signalEl = document.getElementById('openerInsightSignal');
+    const tabsWrap = document.getElementById('openerInsightTabs');
+    const dotsWrap = document.getElementById('openerInsightDots');
+    if (!textEl || !signalEl) return;
+
+    openerActiveIndex = index;
+
+    // Fade the text/signal out, swap content, fade back in — small but
+    // genuinely felt transition rather than an instant content jump.
+    textEl.style.opacity = '0';
+    signalEl.style.opacity = '0';
+    setTimeout(() => {
+      textEl.innerHTML = data.text;
+      const signalSpan = signalEl.querySelector('span');
+      if (signalSpan) signalSpan.textContent = data.signal;
+      textEl.style.opacity = '1';
+      signalEl.style.opacity = '1';
+    }, 180);
+
+    if (tabsWrap){
+      tabsWrap.querySelectorAll('.opener__insight-tab').forEach(btn => {
+        btn.classList.toggle('is-active', parseInt(btn.dataset.insight, 10) === index);
+      });
+    }
+    if (dotsWrap){
+      dotsWrap.querySelectorAll('.opener__insight-dot').forEach(dot => {
+        dot.classList.toggle('is-active', parseInt(dot.dataset.insight, 10) === index);
+      });
+    }
+  }
+
+  function startOpenerRotation(){
+    stopOpenerRotation();
+    openerRotateTimer = setInterval(() => {
+      const next = (openerActiveIndex + 1) % OPENER_INSIGHTS.length;
+      renderOpenerInsight(next, true);
+    }, 6000);
+  }
+
+  function stopOpenerRotation(){
+    if (openerRotateTimer){ clearInterval(openerRotateTimer); openerRotateTimer = null; }
+  }
+
+  function initOpenerInsights(){
+    const tabsWrap = document.getElementById('openerInsightTabs');
+    const dotsWrap = document.getElementById('openerInsightDots');
+    if (!tabsWrap || typeof OPENER_INSIGHTS === 'undefined') return;
+
+    // Build the progress dots dynamically from however many insights exist
+    if (dotsWrap && !dotsWrap.dataset.built){
+      dotsWrap.innerHTML = OPENER_INSIGHTS.map((d, i) =>
+        `<button class="opener__insight-dot${i===0?' is-active':''}" data-insight="${i}" role="tab" aria-label="Show ${d.label} insight"></button>`
+      ).join('');
+      dotsWrap.dataset.built = 'true';
+    }
+
+    function selectInsight(index){
+      renderOpenerInsight(index, false);
+      // A manual choice pauses auto-rotation briefly so the person's pick
+      // actually stays on screen, then resumes the ambient rotation.
+      stopOpenerRotation();
+      setTimeout(startOpenerRotation, 9000);
+    }
+
+    tabsWrap.addEventListener('click', (e) => {
+      const btn = e.target.closest('.opener__insight-tab');
+      if (!btn) return;
+      selectInsight(parseInt(btn.dataset.insight, 10));
+    });
+    if (dotsWrap){
+      dotsWrap.addEventListener('click', (e) => {
+        const dot = e.target.closest('.opener__insight-dot');
+        if (!dot) return;
+        selectInsight(parseInt(dot.dataset.insight, 10));
+      });
+    }
+
+    startOpenerRotation();
+  }
+
+  /* ---------- Domain tabs (Assistant Overview interactive catalog) ---------- */
+  function initDomainTabs(){
+    const tabsEl = document.getElementById('domainTabs');
+    const panelEl = document.getElementById('domainPanel');
+    if (!tabsEl || !panelEl) return;
+
+    ASSISTANT_DOMAINS.forEach((d, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (i === 0 ? ' is-active' : '');
+      btn.dataset.key = d.key;
+      btn.innerHTML = `${d.icon}<span>${d.label}</span>`;
+      btn.addEventListener('click', () => {
+        tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        renderDomainPanel(d);
+      });
+      tabsEl.appendChild(btn);
+    });
+    renderDomainPanel(ASSISTANT_DOMAINS[0]);
+
+    function renderDomainPanel(domain){
+      panelEl.innerHTML = `
+        <div class="grid grid-4" style="gap:14px;">
+          ${domain.assistants.map(([name,count]) => `
+            <div class="assistant-card">
+              <div class="assistant-card__name">${name}</div>
+              <div class="assistant-card__count">${count}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+  }
+
+  /* ---------- Joule floating widget ---------- */
+  function initJouleWidget(){
+    const fab = document.getElementById('jouleFab');
+    const panel = document.getElementById('joulePanel');
+    const closeBtn = document.getElementById('jouleClose');
+    const input = document.getElementById('jouleInput');
+    const sendBtn = document.getElementById('jouleSend');
+    const body = document.getElementById('jouleBody');
+
+    fab.addEventListener('click', () => {
+      panel.classList.toggle('is-open');
+      if (panel.classList.contains('is-open')) input.focus();
+    });
+    closeBtn.addEventListener('click', () => panel.classList.remove('is-open'));
+
+    function send(){
+      const val = input.value.trim();
+      if (!val) return;
+      const userMsg = document.createElement('div');
+      userMsg.className = 'joule-msg joule-msg--user';
+      userMsg.innerHTML = `<p>${escapeHtml(val)}</p>`;
+      body.appendChild(userMsg);
+      input.value = '';
+      body.scrollTop = body.scrollHeight;
+
+      setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'joule-msg joule-msg--bot';
+        botMsg.innerHTML = `<p>Great question — in the live SAP environment, I'd pull that directly from YASREF's connected refinery systems. For today's walkthrough, your SAP team can take this one live.</p>`;
+        body.appendChild(botMsg);
+        body.scrollTop = body.scrollHeight;
+      }, 550);
+    }
+    sendBtn.addEventListener('click', send);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+  }
+
+  function refreshJouleSuggestions(){
+    const sec = JOURNEY_SECTIONS[currentIndex];
+    const wrap = document.getElementById('jouleSuggestions');
+    if (!wrap) return;
+    const suggestions = (typeof JOULE_SUGGESTIONS !== 'undefined' && JOULE_SUGGESTIONS[sec.id]) || [];
+    wrap.innerHTML = suggestions.map(s => `<button class="joule-suggestion-btn">${escapeHtml(s)}</button>`).join('');
+    wrap.querySelectorAll('.joule-suggestion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('jouleInput').value = btn.textContent;
+        document.getElementById('jouleSend').click();
+      });
+    });
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  /* ---------- Wire bottom nav + hero CTA + keyboard ---------- */
+  function wireNav(){
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(currentIndex - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(currentIndex + 1));
+    document.getElementById('navToggle').addEventListener('click', openDrawer);
+    document.getElementById('navDrawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('navDrawer').addEventListener('click', (e) => {
+      if (e.target.id === 'navDrawer') closeDrawer();
+    });
+
+    stage.addEventListener('click', (e) => {
+      const navBtn = e.target.closest('[data-nav]');
+      if (!navBtn) return;
+      const action = navBtn.dataset.nav;
+      if (action === 'next') goTo(currentIndex + 1);
+      if (action === 'prev') goTo(currentIndex - 1);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+      if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
+      if (e.key === 'Escape' || e.keyCode === 27) closeDrawer();
+    });
+  }
+
+  /* ---------- Stop video also when tab loses visibility (battery/courtesy) ---------- */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden){
+      stopAllVideos(null);
+      closeVideoModal();
+      stopOpenerRotation();
+    } else if (JOURNEY_SECTIONS[currentIndex] && JOURNEY_SECTIONS[currentIndex].id === 'usecase'){
+      startOpenerRotation();
+    }
+  });
+
+  /* ---------- Init ---------- */
+  function init(){
+    buildSections();
+    buildNav();
+    wireNav();
+    wireVideoFrames();
+    initVideoModal();
+    initOpenerInsights();
+    initJouleWidget();
+
+    // Optional deep-link: #section=<id> or #idx=<n> (also used for QA)
+    let startIndex = 0;
+    const hash = window.location.hash.replace('#','');
+    if (hash){
+      const byId = JOURNEY_SECTIONS.findIndex(s => s.id === hash.replace('section=',''));
+      const byIdxMatch = hash.match(/idx=(\d+)/);
+      if (hash.startsWith('section=') && byId >= 0) startIndex = byId;
+      else if (byIdxMatch) startIndex = Math.min(parseInt(byIdxMatch[1],10), JOURNEY_SECTIONS.length-1);
+    }
+    goTo(startIndex);
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+/* ---------- Intro Video Overlay ---------- */
+(function(){
+  var overlay = document.getElementById('introVideoOverlay');
+  var video = document.getElementById('introVideo');
+  var closeBtn = document.getElementById('introVideoClose');
+  if (!overlay || !video) return;
+
+  function dismissIntro(){
+    video.pause();
+    video.currentTime = 0;
+    video.removeAttribute('src');
+    video.load();
+    overlay.classList.add('is-hidden');
+    setTimeout(function(){ overlay.style.display = 'none'; }, 500);
+  }
+
+  // Close button
+  closeBtn.addEventListener('click', dismissIntro);
+
+  // Auto-close when video ends
+  video.addEventListener('ended', dismissIntro);
+
+  // Unmute on first user interaction (mouse move, click, touch, keypress)
+  // This happens instantly when user engages with the page
+  function unmute(){
+    video.muted = false;
+    document.removeEventListener('mousemove', unmute, true);
+    document.removeEventListener('click', unmute, true);
+    document.removeEventListener('touchstart', unmute, true);
+    document.removeEventListener('keydown', unmute, true);
+  }
+  document.addEventListener('mousemove', unmute, true);
+  document.addEventListener('click', unmute, true);
+  document.addEventListener('touchstart', unmute, true);
+  document.addEventListener('keydown', unmute, true);
+})();
+
+</script>
+</body>
+</html>
