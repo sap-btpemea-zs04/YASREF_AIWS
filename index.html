@@ -1967,8 +1967,31 @@ const JOURNEY_SECTIONS = [
 },
 
 /* ============================================================
-   HIDDEN — PRESENTER INTRODUCTION SLOT (removed from navigation)
+   02 — PRESENTER INTRODUCTION SLOT
    ============================================================ */
+{
+  id: 'intro',
+  navLabel: 'Your Hosts',
+  kind: 'light',
+  html: `
+    <div class="section-head section-head--center">
+      <div class="eyebrow" style="justify-content:center;">Before we continue</div>
+      <h2 class="headline">Meet your guide for today's journey</h2>
+    </div>
+
+    <div class="team-grid" style="max-width:960px; margin-left:auto; margin-right:auto;" id="teamGrid">
+      <div class="team-card">
+        <div class="team-card__photo">
+          <img src="media/img/zainab-photo.jpg" alt="Zainab Abdulsalam" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+        <div class="team-card__info">
+          <div class="team-card__name">Zainab Abdulsalam</div>
+          <div class="team-card__title">Lead Advisor, SAP Business AI Platform</div>
+        </div>
+      </div>
+    </div>
+  `
+},
 
 /* ============================================================
    04 — HOW THE AUTONOMOUS ENTERPRISE IS BUILT (architecture)
